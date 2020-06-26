@@ -1,0 +1,26 @@
+﻿@model MvcEmployeesApp.Models.Employee
+@{
+    ViewBag.Title = "AddEdit";
+}
+<div>
+    <form method="post">
+        <label>FirstName</label><br>
+        <input type="text" name="FirstName" value="@Model.FirstName" /><br>
+        <p>@ViewBag.mfn</p>
+
+        <label>LastName</label><br>
+        <input type="text" name="LastName" value="@Model.LastName" /><br>
+        <p>@ViewBag.mln</p>
+
+        <label>Age</label><br>
+        <input type="number" name="Age" value="@Model.Age" /><br>
+        <p>@ViewBag.ma</p>
+
+        <label>Position</label><br>
+        <input type="text" name="Position" value="@Model.Position" /><br>
+        <p>@ViewBag.mp</p>
+
+        <input type="submit" value="Submit" />
+        <p>@ViewBag.Message</p>
+    </form>
+</div>

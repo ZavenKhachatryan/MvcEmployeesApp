@@ -1,0 +1,11 @@
+﻿@model MvcEmployeesApp.Models.Employee
+@{
+    ViewBag.Title = "Remove";
+}
+
+<form method="post">
+    <p>Do You Want to Delete ?</p>
+    <p>@Model.Id | @Model.FirstName | @Model.LastName</p>
+    <input type="submit" value="Yes"/>
+    <a href="/Home/Index">No</a>
+</form>
