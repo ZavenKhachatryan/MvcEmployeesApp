@@ -16,6 +16,7 @@ namespace MvcEmployeesApp.Controllers
             using (DataContext data = new DataContext())
             {
                 List<Employee> employees = data.Employees.ToList();
+
                 if (model.OrderBy == "ascId" || model.OrderBy == null)
                     employees = data.Employees.OrderBy(e => e.Id).ToList();
                 else if (model.OrderBy == "ascFirst")
@@ -26,7 +27,7 @@ namespace MvcEmployeesApp.Controllers
                     employees = data.Employees.OrderBy(e => e.Age).ToList();
                 else if (model.OrderBy == "ascPosition")
                     employees = data.Employees.OrderBy(e => e.Position).ToList();
-                
+
                 else if (model.OrderBy == "descId" || model.OrderBy == null)
                     employees = data.Employees.OrderByDescending(e => e.Id).ToList();
                 else if (model.OrderBy == "descFirst")
@@ -75,14 +76,28 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult AddEdit(Employee employee)
         {
-            if (!ModelState.IsValidField("FirstName"))
-                ViewBag.mfn = "Tab weren't filled";
+
+            if (ModelState.IsValid)
+                throw new Exception();
+
+            foreach (var val in ModelState.Values)
+            {
+                foreach (var er in val.Errors)
+                {
+                   string err =  er.ErrorMessage;
+                }
+            }
+            //if (!ModelState.IsValidField("FirstName"))
+            // if (employee.FirstName == null || employee.FirstName == )
+            ViewBag.mfn = "Tab weren't filled";
             if (!ModelState.IsValidField("LastName"))
                 ViewBag.mln = "Tab weren't filled";
             if (!ModelState.IsValidField("Age"))
                 ViewBag.ma = "Tab weren't filled";
             if (!ModelState.IsValidField("Position"))
                 ViewBag.mp = "Tab weren't filled";
+            if (employee.Age > 110)
+                ViewBag.ma = "Long Age !!!";
 
             if (!ModelState.IsValid)
             {
