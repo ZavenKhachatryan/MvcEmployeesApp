@@ -19,16 +19,7 @@ namespace MvcEmployeesApp.Models
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (string.IsNullOrWhiteSpace(FirstName))
-                yield return new ValidationResult("My Error Message 1", new List<string>() { nameof(FirstName) });
-
-            if (string.IsNullOrWhiteSpace(LastName))
-                yield return new ValidationResult("My Error Message 2", new List<string>() { nameof(LastName) });
-
-            if (string.IsNullOrWhiteSpace(Age.ToString()))
-                yield return new ValidationResult("My Error Message 3", new List<string>() { nameof(Age) });
-
-            if (string.IsNullOrWhiteSpace(Position))
-                yield return new ValidationResult("My Error Message 4", new List<string>() { nameof(Position) });
+                yield return new ValidationResult("My Error Message 1", new List<string>() { nameof(FirstName), nameof(LastName), nameof(Age), nameof(Position) });
         }
     }
 }
