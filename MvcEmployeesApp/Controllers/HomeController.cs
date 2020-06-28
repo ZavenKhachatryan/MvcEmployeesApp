@@ -10,7 +10,7 @@ namespace MvcEmployeesApp.Controllers
 {
     public class HomeController : Controller
     {
-        //[Authentication]
+        [Authentication]
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;

@@ -1,0 +1,16 @@
+﻿@model MvcEmployeesApp.Models.LoginPass
+@{
+    ViewBag.Title = "Login";
+}
+<h4>Log In</h4>
+<a href="/Account/SignIn">Sign In</a>
+<form method="post">
+    <label>LogIn</label><br>
+    <input type="text" name="Logn" value="@Model.Logn" /><br>
+
+    <label>Password</label><br>
+    <input type="text" name="Pass" value="@Model.Pass" /><br>
+
+    <input type="submit" value="Submit" />
+    <p>@ViewBag.Massage</p>
+</form>

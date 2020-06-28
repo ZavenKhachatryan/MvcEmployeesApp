@@ -5,7 +5,7 @@ namespace MvcEmployeesApp
 {
     public class DataContext : DbContext
     {
-        public DataContext() : base("employeedbEntities")
+        public DataContext() : base("employeedbEntities2")
         {
         }
         public DbSet<Employee> Employees { get; set; }
