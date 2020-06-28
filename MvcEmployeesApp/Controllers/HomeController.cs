@@ -4,11 +4,13 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System;
+using MvcEmployeesApp.Filters;
 
 namespace MvcEmployeesApp.Controllers
 {
     public class HomeController : Controller
     {
+        //[Authentication]
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;

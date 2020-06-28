@@ -9,5 +9,6 @@ namespace MvcEmployeesApp
         {
         }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<LoginPass> LoginPasses { get; set; }
     }
 }
