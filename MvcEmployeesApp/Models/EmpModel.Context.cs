@@ -13,10 +13,10 @@ namespace MvcEmployeesApp.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class employeedbEntities : DbContext
+    public partial class employeedbEntities2 : DbContext
     {
-        public employeedbEntities()
-            : base("name=employeedbEntities")
+        public employeedbEntities2()
+            : base("name=employeedbEntities2")
         {
         }
     
@@ -26,5 +26,6 @@ namespace MvcEmployeesApp.Models
         }
     
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<LoginPass> LoginPasses { get; set; }
     }
 }

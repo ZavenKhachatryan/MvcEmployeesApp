@@ -15,8 +15,17 @@
           <Property Name="Age" Type="int" />
           <Property Name="Position" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="LoginPass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Logn" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Pass" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="employeedbModelStoreContainer">
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginPass" EntityType="Self.LoginPass" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -33,15 +42,24 @@
           <Property Name="Age" Type="Int32" />
           <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="employeedbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityType Name="LoginPass">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Logn" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pass" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="employeedbEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="LoginPasses" EntityType="Self.LoginPass" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="employeedbModelStoreContainer" CdmEntityContainer="employeedbEntities">
+        <EntityContainerMapping StorageEntityContainer="employeedbModelStoreContainer" CdmEntityContainer="employeedbEntities2">
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="employeedbModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
@@ -50,6 +68,15 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginPasses">
+            <EntityTypeMapping TypeName="employeedbModel.LoginPass">
+              <MappingFragment StoreEntitySet="LoginPass">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Logn" ColumnName="Logn" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

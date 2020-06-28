@@ -76,34 +76,12 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult AddEdit(Employee employee)
         {
-
-            if (ModelState.IsValid)
-                throw new Exception();
-
-            foreach (var val in ModelState.Values)
-            {
-                foreach (var er in val.Errors)
-                {
-                   string err =  er.ErrorMessage;
-                }
-            }
-            //if (!ModelState.IsValidField("FirstName"))
-            // if (employee.FirstName == null || employee.FirstName == )
-            ViewBag.mfn = "Tab weren't filled";
-            if (!ModelState.IsValidField("LastName"))
-                ViewBag.mln = "Tab weren't filled";
-            if (!ModelState.IsValidField("Age"))
-                ViewBag.ma = "Tab weren't filled";
-            if (!ModelState.IsValidField("Position"))
-                ViewBag.mp = "Tab weren't filled";
-            if (employee.Age > 110)
-                ViewBag.ma = "Long Age !!!";
-
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Not all tabs were filled";
+                ViewBag.Message = "Not all tabs were filled or filed incorrect";
                 return View(employee);
             }
+
             using (DataContext data = new DataContext())
             {
                 if (employee.Id != null)
@@ -118,6 +96,7 @@ namespace MvcEmployeesApp.Controllers
                 }
 
             }
+
             return RedirectToAction("Index");
         }
 
