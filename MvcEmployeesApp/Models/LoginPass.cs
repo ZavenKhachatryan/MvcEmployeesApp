@@ -7,7 +7,7 @@ namespace MvcEmployeesApp.Models
     public partial class LoginPass
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = ("My Err"))]
         public string Logn { get; set; }
         [Required]
         public string Pass { get; set; }

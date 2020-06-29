@@ -1904,7 +1904,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Home\AddEdit.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Remove.cshtml" />

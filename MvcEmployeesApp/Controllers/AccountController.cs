@@ -25,7 +25,7 @@ namespace MvcEmployeesApp.Controllers
             using (DataContext data = new DataContext())
             {
                 LoginPass login = data.LoginPasses.Where(l => l.Logn == model.Logn && l.Pass == model.Pass).FirstOrDefault();
-
+                
                 if (login == null)
                 {
                     ViewBag.Massage = "Incorrect Login or Password";

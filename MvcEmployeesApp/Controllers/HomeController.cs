@@ -64,8 +64,8 @@ namespace MvcEmployeesApp.Controllers
             return View(empList);
         }
 
-        [Authorize(Users = "Zaven")]
-        public ActionResult AddEdit(int? id)
+        //[Authorize(Users = )]
+        public ActionResult Edit(int? id)
         {
             if (id != null)
             {
@@ -76,7 +76,7 @@ namespace MvcEmployeesApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddEdit(Employee employee)
+        public ActionResult Edit(Employee employee)
         {
             if (!ModelState.IsValid)
             {
