@@ -17,7 +17,7 @@ namespace DataAccessLayer
         static public IQueryable<Employee> SelectEmp(Employee emp)
         {
             data = new DataContext();
-            IQueryable<Employee> employees = data.Employees.Where(e => e.);
+            IQueryable<Employee> employees = data.Employees;
             return employees;
         }
 

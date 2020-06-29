@@ -14,7 +14,7 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
-            var emp = Db.SelectEmp("FIrstName", "Zaven");
+            var emp = Db.SelectEmp(new Employee());
             return View(emp);
         }
 
@@ -32,6 +32,7 @@ namespace MvcEmployeesApp.Controllers
 
         public ActionResult Remove(int? id)
         {
+
             return View();
         }
 
