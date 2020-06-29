@@ -27,19 +27,19 @@ namespace MvcEmployeesApp.Controllers
         public ActionResult Edit(Employee emp)
         {
             Db.Add(emp);
-            return View(emp);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Remove(int? id)
         {
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult Remove()
+        public ActionResult Remove(Employee employee)
         {
-            return View();
+            Db.Remove(employee.Id);
+            return View(employee);
         }
         public ActionResult Details(int? id)
         {

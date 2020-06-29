@@ -37,11 +37,11 @@ namespace DataAccessLayer
                 data.SaveChanges();
             }
         }
-        static public void Remove(Employee emp)
+        static public void Remove(int? id)
         {
             using (data = new DataContext())
             {
-                data.RemoveEmp(emp.Id);
+                data.RemoveEmp(id);
                 data.SaveChanges();
             }
         }
