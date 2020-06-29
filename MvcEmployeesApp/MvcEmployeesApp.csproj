@@ -129,33 +129,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Filters\AuthenticationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Employee.cs">
-      <DependentUpon>EmpModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EmpModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmpModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EmpModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmpModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EmpModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmpModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\LoginPass.cs">
-      <DependentUpon>EmpModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1807,16 +1785,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\EmpModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmpModel.edmx</DependentUpon>
-      <LastGenOutput>EmpModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\EmpModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EmpModel.edmx</DependentUpon>
-      <LastGenOutput>EmpModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-grid.css.map" />
@@ -1879,13 +1847,6 @@
     <Content Include="Content\fontawesome-free-5.13.1-web\webfonts\fa-solid-900.ttf" />
     <Content Include="Content\fontawesome-free-5.13.1-web\webfonts\fa-solid-900.woff" />
     <Content Include="Content\fontawesome-free-5.13.1-web\webfonts\fa-solid-900.woff2" />
-    <EntityDeploy Include="Models\EmpModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EmpModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\EmpModel.edmx.diagram">
-      <DependentUpon>EmpModel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
