@@ -91,5 +91,7 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RemoveEmp", idParameter);
         }
+
+
     }
 }

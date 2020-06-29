@@ -1,10 +1,10 @@
-﻿@model List<MvcEmployeesApp.Models.Employee>
+﻿@model System.Data.Entity.Infrastructure.DbRawSqlQuery<MyModels.Employee>
 @{
     ViewBag.Title = "ByName";
 }
 
 <form method="get" class="search-form">
-    <div class="search-bar-with-label">
+    @*<div class="search-bar-with-label">
         <label class="search-label">Search By</label>
         <div class="search-bar">
             <select id="Employees" name="searchBy" class="mySelect custom-select mr-2">
@@ -17,7 +17,7 @@
             <input type="text" name="searchValue" value="@ViewBag.mod.SearchValue" class="form-control mr-2" />
             <input type="submit" value="Search" class="btn btn-danger">
         </div>
-    </div>
+    </div>*@
     <div class="btn-a">
         <a href="/Home/Edit">+ Add</a>
     </div>
@@ -52,13 +52,6 @@
                         <button name="OrderBy" value="descAge" class="btn"><i class="fa fa-chevron-down"></i></button>
                     </div>
                 </th>
-                <th>
-                    Position
-                    <div class="btn-group">
-                        <button name="OrderBy" value="ascPosition" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="OrderBy" value="descPosition" class="btn"><i class="fa fa-chevron-down"></i></button>
-                    </div>
-                </th>
                 <th>Control</th>
             </tr>
             @foreach (var emp in Model)
@@ -68,7 +61,6 @@
                     <td>@emp.FirstName</td>
                     <td>@emp.LastName</td>
                     <td>@emp.Age</td>
-                    <td>@emp.Position</td>
                     <td>
                         <a href="/Home/AddEdit/@emp.Id" class="btn btn-danger">Edit</a>
                         <a href="/Home/Remove/@emp.Id" data-target="" class="btn btn-danger">Remove</a>

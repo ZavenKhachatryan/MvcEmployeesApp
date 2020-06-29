@@ -14,8 +14,8 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
-            
-            return View();
+            var emp = Db.SelectEmp("FIrstName", "Zaven");
+            return View(emp);
         }
 
         public ActionResult Edit(int? id)
