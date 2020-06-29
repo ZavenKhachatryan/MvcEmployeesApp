@@ -3,6 +3,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Models;
+using DataAccessLayer;
 using MvcEmployeesApp.Filters;
 
 namespace MvcEmployeesApp.Controllers
@@ -12,7 +14,7 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
-
+            
             return View();
         }
 
@@ -24,6 +26,7 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit()
         {
+
             return View();
         }
 
