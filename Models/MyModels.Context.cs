@@ -1,4 +1,5 @@
-﻿namespace MyModels
+﻿
+namespace MyModels
 {
     using System;
     using System.Data.Entity;
@@ -21,7 +22,7 @@
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
-        public virtual int AddEmp(string firstName, string lastName, string age, Nullable<int> salary, string email, Nullable<int> phone)
+        public virtual int AddEmp(string firstName, string lastName, Nullable<int> age, Nullable<int> salary, string email, Nullable<int> phone)
         {
             var firstNameParameter = firstName != null ?
                 new ObjectParameter("FirstName", firstName) :
@@ -31,9 +32,9 @@
                 new ObjectParameter("LastName", lastName) :
                 new ObjectParameter("LastName", typeof(string));
     
-            var ageParameter = age != null ?
+            var ageParameter = age.HasValue ?
                 new ObjectParameter("Age", age) :
-                new ObjectParameter("Age", typeof(string));
+                new ObjectParameter("Age", typeof(int));
     
             var salaryParameter = salary.HasValue ?
                 new ObjectParameter("Salary", salary) :
@@ -50,7 +51,7 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddEmp", firstNameParameter, lastNameParameter, ageParameter, salaryParameter, emailParameter, phoneParameter);
         }
     
-        public virtual int EditEmp(Nullable<int> id, string firstName, string lastName, string age, Nullable<int> salary, string email, Nullable<int> phone)
+        public virtual int EditEmp(Nullable<int> id, string firstName, string lastName, Nullable<int> age, Nullable<int> salary, string email, Nullable<int> phone)
         {
             var idParameter = id.HasValue ?
                 new ObjectParameter("Id", id) :
@@ -64,9 +65,9 @@
                 new ObjectParameter("LastName", lastName) :
                 new ObjectParameter("LastName", typeof(string));
     
-            var ageParameter = age != null ?
+            var ageParameter = age.HasValue ?
                 new ObjectParameter("Age", age) :
-                new ObjectParameter("Age", typeof(string));
+                new ObjectParameter("Age", typeof(int));
     
             var salaryParameter = salary.HasValue ?
                 new ObjectParameter("Salary", salary) :
@@ -91,7 +92,5 @@
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RemoveEmp", idParameter);
         }
-
-
     }
 }

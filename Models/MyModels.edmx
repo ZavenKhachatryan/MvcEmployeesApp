@@ -12,9 +12,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="Age" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
           <Property Name="Salary" Type="int" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Phone" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
@@ -28,7 +28,7 @@
         <Function Name="AddEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="LastName" Type="nvarchar" Mode="In" />
-          <Parameter Name="Age" Type="nvarchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
           <Parameter Name="Salary" Type="int" Mode="In" />
           <Parameter Name="Email" Type="nvarchar" Mode="In" />
           <Parameter Name="Phone" Type="int" Mode="In" />
@@ -37,7 +37,7 @@
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="LastName" Type="nvarchar" Mode="In" />
-          <Parameter Name="Age" Type="nvarchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
           <Parameter Name="Salary" Type="int" Mode="In" />
           <Parameter Name="Email" Type="nvarchar" Mode="In" />
           <Parameter Name="Phone" Type="int" Mode="In" />
@@ -53,7 +53,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="EmployeedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="employeedbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
@@ -61,9 +61,9 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Age" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
           <Property Name="Salary" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
@@ -80,7 +80,7 @@
           <FunctionImport Name="AddEmp">
             <Parameter Name="FirstName" Mode="In" Type="String" />
             <Parameter Name="LastName" Mode="In" Type="String" />
-            <Parameter Name="Age" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
             <Parameter Name="Salary" Mode="In" Type="Int32" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Phone" Mode="In" Type="Int32" />
@@ -89,7 +89,7 @@
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="FirstName" Mode="In" Type="String" />
             <Parameter Name="LastName" Mode="In" Type="String" />
-            <Parameter Name="Age" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
             <Parameter Name="Salary" Mode="In" Type="Int32" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Phone" Mode="In" Type="Int32" />
@@ -105,7 +105,7 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="employeedbModelStoreContainer" CdmEntityContainer="DataContext">
           <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="EmployeedbModel.Employee">
+            <EntityTypeMapping TypeName="employeedbModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -118,7 +118,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="EmployeedbModel.User">
+            <EntityTypeMapping TypeName="employeedbModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

@@ -51,36 +51,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Employee.cs">
-      <DependentUpon>ModelsAndProcedures.tt</DependentUpon>
+      <DependentUpon>MyModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelsAndProcedures.Context.cs">
+    <Compile Include="MyModels.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelsAndProcedures.Context.tt</DependentUpon>
+      <DependentUpon>MyModels.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelsAndProcedures.cs">
+    <Compile Include="MyModels.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelsAndProcedures.tt</DependentUpon>
+      <DependentUpon>MyModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelsAndProcedures.Designer.cs">
+    <Compile Include="MyModels.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelsAndProcedures.edmx</DependentUpon>
+      <DependentUpon>MyModels.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs">
-      <DependentUpon>ModelsAndProcedures.tt</DependentUpon>
+      <DependentUpon>MyModels.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="ModelsAndProcedures.edmx">
+    <EntityDeploy Include="MyModels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelsAndProcedures.Designer.cs</LastGenOutput>
+      <LastGenOutput>MyModels.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="ModelsAndProcedures.edmx.diagram">
-      <DependentUpon>ModelsAndProcedures.edmx</DependentUpon>
+    <None Include="MyModels.edmx.diagram">
+      <DependentUpon>MyModels.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -88,15 +88,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModelsAndProcedures.Context.tt">
+    <Content Include="MyModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelsAndProcedures.edmx</DependentUpon>
-      <LastGenOutput>ModelsAndProcedures.Context.cs</LastGenOutput>
+      <DependentUpon>MyModels.edmx</DependentUpon>
+      <LastGenOutput>MyModels.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="ModelsAndProcedures.tt">
+    <Content Include="MyModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelsAndProcedures.edmx</DependentUpon>
-      <LastGenOutput>ModelsAndProcedures.cs</LastGenOutput>
+      <DependentUpon>MyModels.edmx</DependentUpon>
+      <LastGenOutput>MyModels.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
