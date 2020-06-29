@@ -4,15 +4,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Models;
+using MyModels;
 
 namespace DataAccessLayer
 {
-    public class Db
+    static public class Db
     {
-        DataContext data;
+        static DataContext data;
 
-        public void Add(Employee emp)
+        static public void Add(Employee emp)
         {
             using (data = new DataContext())
             {
@@ -20,7 +20,7 @@ namespace DataAccessLayer
                 data.SaveChanges();
             }
         }
-        public void Edit(Employee emp)
+        static public void Edit(Employee emp)
         {
             using (data = new DataContext())
             {
@@ -28,9 +28,9 @@ namespace DataAccessLayer
                 data.SaveChanges();
             }
         }
-        public void Remove(Employee emp)
+        static public void Remove(Employee emp)
         {
-            using (data = new DataContext)
+            using (data = new DataContext())
             {
                 data.RemoveEmp(emp.Id);
                 data.SaveChanges();

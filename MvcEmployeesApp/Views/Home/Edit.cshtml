@@ -1,4 +1,4 @@
-﻿@model MvcEmployeesApp.Models.Employee
+﻿@model MyModels.Employee
 @{
     ViewBag.Title = "Edit";
 }
@@ -13,8 +13,14 @@
         <label>Age</label><br>
         <input type="number" name="Age" value="@Model.Age" /><br>
 
-        <label>Position</label><br>
-        <input type="text" name="Position" value="@Model.Position" /><br>
+        <label>Salary</label><br>
+        <input type="text" name="Salary" value="@Model.Salary" /><br>
+
+        <label>Email</label><br>
+        <input type="text" name="Email" value="@Model.Email" /><br>
+
+        <label>Phone</label><br>
+        <input type="text" name="Phone" value="@Model.Phone" /><br>
 
         <input type="submit" value="Submit" />
         <p>@ViewBag.Message</p>

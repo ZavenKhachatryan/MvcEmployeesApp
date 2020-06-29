@@ -3,13 +3,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Models;
+using MyModels;
 using DataAccessLayer;
 using MvcEmployeesApp.Filters;
 
 namespace MvcEmployeesApp.Controllers
 {
-    [Authentication]
+    //[Authentication]
     public class HomeController : Controller
     {
         public ActionResult Index(SearchModel model)
@@ -20,14 +20,14 @@ namespace MvcEmployeesApp.Controllers
 
         public ActionResult Edit(int? id)
         {
-            return View();
+            return View(new Employee());
         }
 
         [HttpPost]
-        public ActionResult Edit()
+        public ActionResult Edit(Employee emp)
         {
-
-            return View();
+            Db.Add(emp);
+            return View(emp);
         }
 
         public ActionResult Remove(int? id)
