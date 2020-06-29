@@ -3,14 +3,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using System;
 using MvcEmployeesApp.Filters;
 
 namespace MvcEmployeesApp.Controllers
 {
+    [Authentication]
     public class HomeController : Controller
     {
-        [Authentication]
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
@@ -65,6 +64,7 @@ namespace MvcEmployeesApp.Controllers
             return View(empList);
         }
 
+        [Authorize(Users = "Zaven")]
         public ActionResult AddEdit(int? id)
         {
             if (id != null)
@@ -114,6 +114,7 @@ namespace MvcEmployeesApp.Controllers
             using (DataContext data = new DataContext())
             {
                 Employee employee = data.Employees.FirstOrDefault(d => d.Id == emp.Id);
+
                 if (employee != null)
                 {
                     data.Entry(employee).State = EntityState.Deleted;
