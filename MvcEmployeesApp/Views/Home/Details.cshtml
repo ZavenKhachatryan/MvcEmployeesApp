@@ -1,5 +1,25 @@
-﻿@model MvcEmployeesApp.Models.Employee
+﻿@model MyModels.Employee
 @{
     ViewBag.Title = "Details";
 }
-<p>@Model.Id | @Model.FirstName | @Model.LastName | @Model.Age | @Model.Position</p>
+
+<table class="myTable table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Salary</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+    <tr>
+        <td>@Model.Id</td>
+        <td>@Model.FirstName</td>
+        <td>@Model.LastName</td>
+        <td>@Model.Age</td>
+        <td>@Model.Salary</td>
+        <td>@Model.Email</td>
+        <td>@Model.Phone</td>
+    </tr>
+</table>

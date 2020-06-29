@@ -14,36 +14,48 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
-            var emp = Db.SelectEmp(new Employee());
+            var emp = Db.SelectEmp(model.SearchBy, model.SearchValue, model.OrderBy);
             return View(emp);
         }
 
         public ActionResult Edit(int? id)
         {
+            if (id != null)
+            {
+                Employee employee = Db.GetEmployeeById(id);
+                return View(employee);
+            }
+
             return View(new Employee());
         }
 
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            Db.Add(emp);
+            if (emp.Id == null)
+                Db.Add(emp);
+            else
+                Db.Edit(emp);
             return RedirectToAction("Index");
         }
 
         public ActionResult Remove(int? id)
         {
-            return View();
+            Employee employee = Db.GetEmployeeById(id);
+            return View(employee);
         }
 
         [HttpPost]
         public ActionResult Remove(Employee employee)
         {
             Db.Remove(employee.Id);
-            return View(employee);
+            return RedirectToAction("Index");
         }
+
         public ActionResult Details(int? id)
         {
-            return View();
+            Employee employee = Db.GetEmployeeById(id);
+            return View(employee);
         }
     }
 }
