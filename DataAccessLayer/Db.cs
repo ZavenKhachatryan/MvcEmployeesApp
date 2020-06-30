@@ -55,27 +55,6 @@ namespace DataAccessLayer
             return employees;
         }
 
-        static public void Add(Employee employee, out Dictionary<string, string> errorMessages)
-        {
-            using (data = new DataContext())
-            {
-                errorMessages = null;
-                bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email);
-                bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone);
-
-                if (isExistEmail)
-                    errorMessages.Add("Email", "Duplicate Email Name");
-
-                if (isExistPhone)
-                    errorMessages.Add("Phone", "Duplicate Phone Name");
-
-                if (!isExistEmail && !isExistPhone)
-                {
-                    data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
-                    data.SaveChanges();
-                }
-            }
-        }
         static public void Edit(Employee employee, out Dictionary<string, string> errorMessages)
         {
             using (data = new DataContext())
@@ -92,8 +71,16 @@ namespace DataAccessLayer
 
                 if (!isExistEmail && !isExistPhone)
                 {
-                    data.EditEmp(employee.Id, employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
-                    data.SaveChanges();
+                    if (employee.Id != null)
+                    {
+                        data.EditEmp(employee.Id, employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                        data.SaveChanges();
+                    }
+                    else
+                    {
+                        data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                        data.SaveChanges();
+                    }
                 }
             }
         }

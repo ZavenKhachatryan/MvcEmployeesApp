@@ -35,14 +35,7 @@ namespace MvcEmployeesApp.Controllers
         {
             Dictionary<string, string> errorMessages = new Dictionary<string, string>();
 
-            if (emp.Id == null)
-            {
-                Db.Add(emp, out errorMessages);
-            }
-            else
-            {
-                Db.Edit(emp, out errorMessages);
-            }
+            Db.Edit(emp, out errorMessages);
             if (errorMessages != null)
             {
                 ViewBag.ExEmail = errorMessages["Email"];
