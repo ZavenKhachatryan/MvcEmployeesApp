@@ -14,6 +14,7 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
+            ViewBag.mod = model;
             var emp = Db.SelectEmp(model.SearchBy, model.SearchValue, model.OrderBy);
             return View(emp);
         }
