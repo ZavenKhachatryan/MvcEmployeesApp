@@ -33,20 +33,20 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            Dictionary<string, string> errorList = new Dictionary<string, string>();
+            Dictionary<string, string> errorMessages = new Dictionary<string, string>();
 
             if (emp.Id == null)
             {
-                Db.Add(emp, out errorList);
+                Db.Add(emp, out errorMessages);
             }
             else
             {
-                Db.Edit(emp, out errorList);
+                Db.Edit(emp, out errorMessages);
             }
-            if (errorList != null)
+            if (errorMessages != null)
             {
-                ViewBag.ExEmail = errorList["Email"];
-                ViewBag.ExPhone = errorList["Phone"];
+                ViewBag.ExEmail = errorMessages["Email"];
+                ViewBag.ExPhone = errorMessages["Phone"];
                 return View(emp);
             }
 
