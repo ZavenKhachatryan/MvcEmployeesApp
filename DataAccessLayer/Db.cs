@@ -59,9 +59,12 @@ namespace DataAccessLayer
         static public void Add(Employee employee)
         {
             bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email);
+            bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone);
 
             if (isExistEmail)
-                throw new DuplicateException("Duplicate Email Name");
+                throw new DuplicateException("Duplicate Email Name", DuplicateExceptionType.Email);
+            if (isExistPhone)
+                throw new DuplicateException("Duplicate Phone Name", DuplicateExceptionType.Phone);
             else
             {
                 data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);

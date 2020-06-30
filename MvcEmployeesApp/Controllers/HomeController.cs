@@ -40,10 +40,12 @@ namespace MvcEmployeesApp.Controllers
                 else
                     Db.Edit(emp);
             }
-            catch (BaseException ex)
+            catch(DuplicateException ex)
             {
-                ViewBag.exception = ex.Message;
-                return View(emp);
+                if (ex.Type == DuplicateExceptionType.Email)
+                    ViewBag.ExEmail = ex.Message;
+                else if (ex.Type == DuplicateExceptionType.Phone)
+                    ViewBag.ExPhone = ex.Message;
             }
             catch (Exception)
             {
