@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using MyModels;
 using DataAccessLayer;
 using MvcEmployeesApp.Filters;
+using System;
 
 namespace MvcEmployeesApp.Controllers
 {
@@ -32,10 +33,22 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            if (emp.Id == null)
-                Db.Add(emp);
-            else
-                Db.Edit(emp);
+            try
+            {
+                if (emp.Id == null)
+                    Db.Add(emp);
+                else
+                    Db.Edit(emp);
+            }
+            catch (BaseException ex)
+            {
+                ViewBag.exception = ex.Message;
+                return View(emp);
+            }
+            catch (Exception)
+            {
+                ViewBag.exception = "Internal server exception";
+            }
             return RedirectToAction("Index");
         }
 

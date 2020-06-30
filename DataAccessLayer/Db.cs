@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyModels;
 using System.Data.Entity.Infrastructure;
+
 namespace DataAccessLayer
 {
     static public class Db
@@ -43,26 +44,27 @@ namespace DataAccessLayer
                 return employees;
             }
 
-            foreach (var emp in employees)
-            {
-                if (model.SearchBy == "Id")
-                    employees = employees.Where(e => e.Id.ToString() == model.SearchValue);
-                else if (model.SearchBy == "FirstName")
-                    employees = employees.Where(e => e.FirstName == model.SearchValue);
-                else if (model.SearchBy == "LastName")
-                    employees = employees.Where(e => e.LastName == model.SearchValue);
-                else if (model.SearchBy == "Age")
-                    employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
-            }
+            if (model.SearchBy == "Id")
+                employees = employees.Where(e => e.Id.ToString() == model.SearchValue);
+            else if (model.SearchBy == "FirstName")
+                employees = employees.Where(e => e.FirstName == model.SearchValue);
+            else if (model.SearchBy == "LastName")
+                employees = employees.Where(e => e.LastName == model.SearchValue);
+            else if (model.SearchBy == "Age")
+                employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
 
             return employees;
         }
 
-        static public void Add(Employee emp)
+        static public void Add(Employee employee)
         {
-            using (data = new DataContext())
+            bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email);
+
+            if (isExistEmail)
+                throw new DuplicateException("Duplicate Email Name");
+            else
             {
-                data.AddEmp(emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
+                data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
                 data.SaveChanges();
             }
         }

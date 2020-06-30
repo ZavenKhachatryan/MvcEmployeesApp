@@ -5,24 +5,25 @@
 <div>
     <form method="post">
         <label>FirstName</label><br>
-        <input type="text" name="FirstName" value="@Model.FirstName" class="form-control mr-2"/><br>
+        <input type="text" name="FirstName" value="@Model.FirstName" class="form-control mr-2" /><br>
 
         <label>LastName</label><br>
-        <input type="text" name="LastName" value="@Model.LastName" class="form-control mr-2"/><br>
+        <input type="text" name="LastName" value="@Model.LastName" class="form-control mr-2" /><br>
 
         <label>Age</label><br>
-        <input type="number" name="Age" value="@Model.Age" class="form-control mr-2"/><br>
+        <input type="number" name="Age" value="@Model.Age" class="form-control mr-2" /><br>
 
         <label>Salary</label><br>
-        <input type="text" name="Salary" value="@Model.Salary" class="form-control mr-2"/><br>
+        <input type="text" name="Salary" value="@Model.Salary" class="form-control mr-2" /><br>
 
         <label>Email</label><br>
-        <input type="text" name="Email" value="@Model.Email" class="form-control mr-2"/><br>
+        <input type="text" name="Email" value="@Model.Email" class="form-control mr-2" /><br>
+        <p>@ViewBag.exception</p>
 
         <label>Phone</label><br>
-        <input type="text" name="Phone" value="@Model.Phone" class="form-control mr-2"/><br>
+        <input type="text" name="Phone" value="@Model.Phone" class="form-control mr-2" /><br>
 
-        <input type="submit" value="Submit" class="btn btn-danger"/>
+        <input type="submit" value="Submit" class="btn btn-danger" />
         <p>@ViewBag.Message</p>
     </form>
 </div>
