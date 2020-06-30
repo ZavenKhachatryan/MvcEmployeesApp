@@ -3,9 +3,24 @@
     ViewBag.Title = "Remove";
 }
 
-<form method="post">
-    <p>Do You Want to Delete ?</p>
-    <p>@Model.Id | @Model.FirstName | @Model.LastName</p>
-    <input type="submit" value="Yes"/>
-    <a href="/Home/Index">No</a>
+<form method="post" class="remove-form">
+    <table class="myTable table table-striped">
+        <p class="quetion">Do you want to remove an employee from the database ?</p>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Age</td>
+        </tr>
+    </table>
+    <div class="removeBtns">
+        <input type="submit" value="Yes" class="btn btn-success mr-2" />
+        <a href="/Home/Index" class="btn btn-danger">No</a>
+    </div>
 </form>

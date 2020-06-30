@@ -1,4 +1,4 @@
-﻿namespace MvcEmployeesApp.Models
+﻿namespace MyModels
 {
     public class SearchModel
     {

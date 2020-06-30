@@ -1,5 +1,4 @@
-﻿using MvcEmployeesApp.Models;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -15,7 +14,7 @@ namespace MvcEmployeesApp.Controllers
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
-            var emp = Db.SelectEmp(model.SearchBy, model.SearchValue, model.OrderBy);
+            var emp = Db.SelectEmp(model);
             return View(emp);
         }
 

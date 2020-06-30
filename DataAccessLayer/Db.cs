@@ -14,45 +14,45 @@ namespace DataAccessLayer
     {
         static DataContext data;
 
-        static public IQueryable<Employee> SelectEmp(string searchBy, string searchValue, string orderBy)
+        static public IQueryable<Employee> SelectEmp(SearchModel model)
         {
             data = new DataContext();
 
             IQueryable<Employee> employees = data.Employees;
 
-            if (orderBy == "ascId" || orderBy == null)
+            if (model.OrderBy == "ascId" || model.OrderBy == null)
                 employees = employees.OrderBy(e => e.Id);
-            else if (orderBy == "ascFirst")
+            else if (model.OrderBy == "ascFirst")
                 employees = employees.OrderBy(e => e.FirstName);
-            else if (orderBy == "ascLast")
+            else if (model.OrderBy == "ascLast")
                 employees = employees.OrderBy(e => e.LastName);
-            else if (orderBy == "ascAge")
+            else if (model.OrderBy == "ascAge")
                 employees = employees.OrderBy(e => e.Age);
 
-            else if (orderBy == "descId" || orderBy == null)
+            else if (model.OrderBy == "descId" || model.OrderBy == null)
                 employees = employees.OrderByDescending(e => e.Id);
-            else if (orderBy == "descFirst")
+            else if (model.OrderBy == "descFirst")
                 employees = employees.OrderByDescending(e => e.FirstName);
-            else if (orderBy == "descLast")
+            else if (model.OrderBy == "descLast")
                 employees = employees.OrderByDescending(e => e.LastName);
-            else if (orderBy == "descAge")
+            else if (model.OrderBy == "descAge")
                 employees = employees.OrderByDescending(e => e.Age);
 
-            if (string.IsNullOrEmpty(searchValue))
+            if (string.IsNullOrEmpty(model.SearchValue))
             {
                 return employees;
             }
 
             foreach (var emp in employees)
             {
-                if (searchBy == "Id")
-                    employees = employees.Where(e => e.Id.ToString() == searchValue);
-                else if (searchBy == "FirstName")
-                    employees = employees.Where(e => e.FirstName == searchValue);
-                else if (searchBy == "LastName")
-                    employees = employees.Where(e => e.LastName == searchValue);
-                else if (searchBy == "Age")
-                    employees = employees.Where(e => e.Age.ToString() == searchValue);
+                if (model.SearchBy == "Id")
+                    employees = employees.Where(e => e.Id.ToString() == model.SearchValue);
+                else if (model.SearchBy == "FirstName")
+                    employees = employees.Where(e => e.FirstName == model.SearchValue);
+                else if (model.SearchBy == "LastName")
+                    employees = employees.Where(e => e.LastName == model.SearchValue);
+                else if (model.SearchBy == "Age")
+                    employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
             }
 
             return employees;

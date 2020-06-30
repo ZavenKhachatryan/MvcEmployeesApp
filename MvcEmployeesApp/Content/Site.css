@@ -54,3 +54,26 @@ textarea {
         font-weight: 600;
         color: #212529;
     }
+
+.remove-form .quetion {
+    display: flex;
+    color: red;
+    font-weight: 600;
+    font-size: 20px;
+    justify-content: center;
+}
+
+.remove-form .removeEmp {
+    color: #28A745;
+    font-weight: 600;
+}
+
+.remove-form .myTable{
+    margin: 50px 0;
+}
+
+.remove-form .removeBtns {
+    display: flex;
+    justify-content: center;
+    padding-right: 10px;
+}
