@@ -33,24 +33,23 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            try
+            Dictionary<string, string> errorList = new Dictionary<string, string>();
+
+            if (emp.Id == null)
             {
-                if (emp.Id == null)
-                    Db.Add(emp);
-                else
-                    Db.Edit(emp);
+                Db.Add(emp, out errorList);
             }
-            catch(DuplicateException ex)
+            else
             {
-                if (ex.Type == DuplicateExceptionType.Email)
-                    ViewBag.ExEmail = ex.Message;
-                else if (ex.Type == DuplicateExceptionType.Phone)
-                    ViewBag.ExPhone = ex.Message;
+                Db.Edit(emp, out errorList);
             }
-            catch (Exception)
+            if (errorList != null)
             {
-                ViewBag.exception = "Internal server exception";
+                ViewBag.ExEmail = errorList["Email"];
+                ViewBag.ExPhone = errorList["Phone"];
+                return View(emp);
             }
+
             return RedirectToAction("Index");
         }
 

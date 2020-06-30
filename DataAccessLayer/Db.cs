@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MyModels;
 using System.Data.Entity.Infrastructure;
-
 namespace DataAccessLayer
 {
     static public class Db
@@ -56,27 +55,46 @@ namespace DataAccessLayer
             return employees;
         }
 
-        static public void Add(Employee employee)
-        {
-            bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email);
-            bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone);
-
-            if (isExistEmail)
-                throw new DuplicateException("Duplicate Email Name", DuplicateExceptionType.Email);
-            if (isExistPhone)
-                throw new DuplicateException("Duplicate Phone Name", DuplicateExceptionType.Phone);
-            else
-            {
-                data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
-                data.SaveChanges();
-            }
-        }
-        static public void Edit(Employee emp)
+        static public void Add(Employee employee, out Dictionary<string, string> errorMessages)
         {
             using (data = new DataContext())
             {
-                data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
-                data.SaveChanges();
+                errorMessages = null;
+                bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email);
+                bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone);
+
+                if (isExistEmail)
+                    errorMessages.Add("Email", "Duplicate Email Name");
+
+                if (isExistPhone)
+                    errorMessages.Add("Phone", "Duplicate Phone Name");
+
+                if (!isExistEmail && !isExistPhone)
+                {
+                    data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                    data.SaveChanges();
+                }
+            }
+        }
+        static public void Edit(Employee employee, out Dictionary<string, string> errorMessages)
+        {
+            using (data = new DataContext())
+            {
+                errorMessages = null;
+                bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email && e.Id != employee.Id);
+                bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone && e.Id != employee.Id);
+
+                if (isExistEmail)
+                    errorMessages.Add("Email", "Duplicate Email Name");
+
+                if (isExistPhone)
+                    errorMessages.Add("Phone", "Duplicate Phone Name");
+
+                if (!isExistEmail && !isExistPhone)
+                {
+                    data.EditEmp(employee.Id, employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                    data.SaveChanges();
+                }
             }
         }
         static public void Remove(int? id)
