@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
+﻿using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyModels;
-using System.Data.Entity.Infrastructure;
+
 namespace DataAccessLayer
 {
     static public class Db
@@ -39,9 +33,7 @@ namespace DataAccessLayer
                 employees = employees.OrderByDescending(e => e.Age);
 
             if (string.IsNullOrEmpty(model.SearchValue))
-            {
                 return employees;
-            }
 
             if (model.SearchBy == "Id")
                 employees = employees.Where(e => e.Id.ToString() == model.SearchValue);
@@ -51,6 +43,8 @@ namespace DataAccessLayer
                 employees = employees.Where(e => e.LastName == model.SearchValue);
             else if (model.SearchBy == "Age")
                 employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
+
+            data.Dispose();
 
             return employees;
         }

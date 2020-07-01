@@ -1,11 +1,6 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using MyModels;
 using DataAccessLayer;
-using MvcEmployeesApp.Filters;
-using System;
 
 namespace MvcEmployeesApp.Controllers
 {
