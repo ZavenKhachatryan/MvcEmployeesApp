@@ -55,19 +55,12 @@ namespace DataAccessLayer
             return employees;
         }
 
-        static public void Edit(Employee employee, out Dictionary<string, string> errorMessages)
+        static public bool IsEdit(Employee employee)
         {
             using (data = new DataContext())
             {
-                errorMessages = null;
                 bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email && e.Id != employee.Id);
                 bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone && e.Id != employee.Id);
-
-                if (isExistEmail)
-                    errorMessages.Add("Email", "Duplicate Email Name");
-
-                if (isExistPhone)
-                    errorMessages.Add("Phone", "Duplicate Phone Name");
 
                 if (!isExistEmail && !isExistPhone)
                 {
@@ -81,9 +74,12 @@ namespace DataAccessLayer
                         data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
                         data.SaveChanges();
                     }
+                    return true;
                 }
+                return false;
             }
         }
+
         static public void Remove(int? id)
         {
             using (data = new DataContext())

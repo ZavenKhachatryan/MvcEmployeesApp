@@ -33,13 +33,15 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            Dictionary<string, string> errorMessages = new Dictionary<string, string>();
-
-            Db.Edit(emp, out errorMessages);
-            if (errorMessages != null)
+            if (!ModelState.IsValid)
             {
-                ViewBag.ExEmail = errorMessages["Email"];
-                ViewBag.ExPhone = errorMessages["Phone"];
+                ViewBag.ErrMessage = "Tabs Are Filled Incorrectly";
+                return View(emp);
+            }
+
+            if (!Db.IsEdit(emp))
+            {
+                ViewBag.ErrMessage = "Such Email Address Or/And Phone Number Already Exists";
                 return View(emp);
             }
 
