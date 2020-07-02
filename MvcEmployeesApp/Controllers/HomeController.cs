@@ -3,6 +3,7 @@ using MyModels;
 using DataAccessLayer;
 using System.Linq;
 using MvcEmployeesApp.Models;
+using System;
 
 namespace MvcEmployeesApp.Controllers
 {
@@ -23,6 +24,8 @@ namespace MvcEmployeesApp.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            ViewBag.btn = "Go Back";
+
             if (id != null)
             {
                 Employee employee = Db.GetEmployeeById(id);
@@ -45,11 +48,14 @@ namespace MvcEmployeesApp.Controllers
 
             if (!emp.Contains(editedEmployee))
                 ViewBag.ErrMessage = "Such Email Address Or/And Phone Number Already Exists";
-
-            if (emp.Id != null)
-                ViewBag.completeMessage = "Employee Data Successfully Edited";
             else
-                ViewBag.completeMessage = "Employee Data Successfully Added";
+            {
+                if (emp.Id != null)
+                    ViewBag.completeMessage = "Employee Data Successfully Edited";
+                else
+                    ViewBag.completeMessage = "Employee Data Successfully Added";
+                ViewBag.btn = "Ok";
+            }
 
             return View(emp);
         }

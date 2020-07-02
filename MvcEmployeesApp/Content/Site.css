@@ -77,9 +77,20 @@ textarea {
     justify-content: center;
     padding-right: 10px;
 }
+.edit label {
+    margin-top: 0.5rem;
+    color: #28a745;
+    font-weight: 600;
+}
 .errMessage {
     margin-top: 16px;
     font-size: 18px;
     color: #dc3545;
+    font-weight: 600;
+}
+.completeMessage {
+    margin-top: 16px;
+    font-size: 18px;
+    color: #28a745;
     font-weight: 600;
 }
