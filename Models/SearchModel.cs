@@ -4,6 +4,7 @@
     {
         public string SearchBy { get; set; }
         public string SearchValue { get; set; }
-        public string OrderBy { get; set; }
+        public string OrderBy { get; set; } = "ascId";
+        public int Page { get; set; } = 1;
     }
 }

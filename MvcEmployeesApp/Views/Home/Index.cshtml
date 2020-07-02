@@ -1,6 +1,8 @@
-﻿@model IQueryable<MyModels.Employee>
+﻿@model MvcEmployeesApp.Models.IndexViewModel
+@using MvcEmployeesApp
 @{
-    ViewBag.Title = "ByName";
+    ViewBag.Title = "All Employees";
+   
 }
 
 <form method="get" class="search-form">
@@ -27,34 +29,34 @@
                 <th>
                     ID
                     <div class="btn-group">
-                        <button name="OrderBy" value="ascId" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="OrderBy" value="descId" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=ascId&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-up"></i></a>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=descId&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-down"></i></a>
                     </div>
                 </th>
                 <th>
                     <label>First Name</label>
                     <div class="btn-group">
-                        <button name="OrderBy" value="ascFirst" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="OrderBy" value="descFirst" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=ascFirst&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-up"></i></a>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=descFirst&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-down"></i></a>
                     </div>
                 </th>
                 <th>
                     Last Name
                     <div class="btn-group">
-                        <button name="OrderBy" value="ascLast" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="OrderBy" value="descLast" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=ascLast&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-up"></i></a>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=descLast&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-down"></i></a>
                     </div>
                 </th>
                 <th>
                     Age
                     <div class="btn-group">
-                        <button name="OrderBy" value="ascAge" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="OrderBy" value="descAge" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=ascAge&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-up"></i></a>
+                        <a href="/Home/Index/?searchBy=@ViewBag.mod.SearchBy&searchValue=@ViewBag.mod.SearchValue&orderBy=descAge&page=@ViewBag.mod.Page" class="btn"><i class="fa fa-chevron-down"></i></a>
                     </div>
                 </th>
                 <th>Control</th>
             </tr>
-            @foreach (var emp in Model)
+            @foreach (var emp in Model.Employees)
             {
                 <tr class="mytr" onclick="location.href = '/Home/Details/@emp.Id'">
                     <td>@emp.Id</td>
@@ -68,5 +70,9 @@
                 </tr>
             }
         </table>
+
+        <div class="btn-group">
+             @Pagination.PageLinks(Model.PageInfo, ViewBag.mod)
+        </div>
     </div>
 </form>

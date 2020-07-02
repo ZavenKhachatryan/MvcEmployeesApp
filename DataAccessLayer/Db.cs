@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using MyModels;
 
@@ -14,22 +15,22 @@ namespace DataAccessLayer
 
             IQueryable<Employee> employees = data.Employees;
 
-            if (model.OrderBy == "ascId" || model.OrderBy == null)
+            if (model.OrderBy.Contains("ascId") || model.OrderBy == null)
                 employees = employees.OrderBy(e => e.Id);
-            else if (model.OrderBy == "ascFirst")
+            else if (model.OrderBy.Contains("ascFirst"))
                 employees = employees.OrderBy(e => e.FirstName);
-            else if (model.OrderBy == "ascLast")
+            else if (model.OrderBy.Contains("ascLast"))
                 employees = employees.OrderBy(e => e.LastName);
-            else if (model.OrderBy == "ascAge")
+            else if (model.OrderBy.Contains("ascAge"))
                 employees = employees.OrderBy(e => e.Age);
 
-            else if (model.OrderBy == "descId" || model.OrderBy == null)
+            else if (model.OrderBy.Contains("descId") || model.OrderBy == null)
                 employees = employees.OrderByDescending(e => e.Id);
-            else if (model.OrderBy == "descFirst")
+            else if (model.OrderBy.Contains("descFirst"))
                 employees = employees.OrderByDescending(e => e.FirstName);
-            else if (model.OrderBy == "descLast")
+            else if (model.OrderBy.Contains("descLast"))
                 employees = employees.OrderByDescending(e => e.LastName);
-            else if (model.OrderBy == "descAge")
+            else if (model.OrderBy.Contains("descAge"))
                 employees = employees.OrderByDescending(e => e.Age);
 
             if (string.IsNullOrEmpty(model.SearchValue))
@@ -44,33 +45,30 @@ namespace DataAccessLayer
             else if (model.SearchBy == "Age")
                 employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
 
-            data.Dispose();
-
             return employees;
         }
 
-        static public bool IsEdit(Employee employee)
+        static public Employee Edit(Employee emp)
         {
             using (data = new DataContext())
             {
-                bool isExistEmail = data.Employees.Any(e => e.Email == employee.Email && e.Id != employee.Id);
-                bool isExistPhone = data.Employees.Any(e => e.Phone == employee.Phone && e.Id != employee.Id);
+                bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
+                bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
 
                 if (!isExistEmail && !isExistPhone)
                 {
-                    if (employee.Id != null)
+                    if (emp.Id != null)
                     {
-                        data.EditEmp(employee.Id, employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                        data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
                         data.SaveChanges();
                     }
                     else
                     {
-                        data.AddEmp(employee.FirstName, employee.LastName, employee.Age, employee.Salary, employee.Email, employee.Phone);
+                        data.AddEmp(emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
                         data.SaveChanges();
                     }
-                    return true;
                 }
-                return false;
+                return data.Employees.FirstOrDefault(e => e.Email == emp.Email && e.Phone == emp.Phone);
             }
         }
 
@@ -89,6 +87,10 @@ namespace DataAccessLayer
                 employee = data.Employees.FirstOrDefault(x => x.Id == id);
 
             return employee;
+        }
+        static public bool Contains(this Employee thisEmp, Employee emp)
+        {
+            return thisEmp.FirstName == emp.FirstName && thisEmp.LastName == emp.LastName && thisEmp.Age == emp.Age && thisEmp.Salary == emp.Salary && thisEmp.Email == emp.Email && thisEmp.Phone == emp.Phone;
         }
     }
 }
