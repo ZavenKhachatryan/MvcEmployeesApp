@@ -24,7 +24,7 @@ namespace MvcEmployeesApp.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            ViewBag.btn = "Go Back";
+            ViewBag.Btn = "Go Back";
 
             if (id != null)
             {
@@ -40,37 +40,62 @@ namespace MvcEmployeesApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.ErrMessage = "Tabs Are Filled Incorrectly";
+                ViewBag.ErrMessage = "One Or More Fields Are Filled Incorrectly";
                 return View(emp);
             }
 
             Employee editedEmployee = Db.Edit(emp);
 
             if (!emp.Contains(editedEmployee))
-                ViewBag.ErrMessage = "Such Email Address Or/And Phone Number Already Exists";
+            {
+                ViewBag.ErrMessage = "This Email Address And/Or Phone Number Already Exists";
+                ViewBag.Btn = "Go Back";
+            }
+
             else
             {
                 if (emp.Id != null)
-                    ViewBag.completeMessage = "Employee Data Successfully Edited";
+                    ViewBag.CompleteMessage = "Employee Data Is Successfully Edited";
                 else
-                    ViewBag.completeMessage = "Employee Data Successfully Added";
-                ViewBag.btn = "Ok";
+                    ViewBag.CompleteMessage = "Employee Data Is Successfully Added";
+                ViewBag.Btn = "Ok";
             }
 
-            return View(emp);
+            return View(editedEmployee);
         }
 
         public ActionResult Remove(int? id)
         {
             Employee employee = Db.GetEmployeeById(id);
+
+            if (employee != null)
+                ViewBag.WasFoundMessage = "Employee Was Found";
+            else
+                ViewBag.ErrMessage = "Employee Was Not Found";
+
+            ViewBag.Btn = "Go Back";
+            ViewBag.Quetion = "Do you want to remove an employee from the database ?";
+
             return View(employee);
         }
 
         [HttpPost]
-        public ActionResult Remove(Employee employee)
+        public ActionResult Remove(Employee emp)
         {
-            Db.Remove(employee.Id);
-            return RedirectToAction("Index");
+            bool isRemovedEmployee = Db.Remove(emp);
+
+            if (isRemovedEmployee)
+            {
+                ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
+                ViewBag.Btn = "Ok";
+            }
+            else
+            {
+                ViewBag.ErrMessage = "Employee Data Was Not Deleted";
+                ViewBag.Btn = "Go Back";
+            }
+
+            return View(new Employee());
         }
 
         public ActionResult Details(int? id)
