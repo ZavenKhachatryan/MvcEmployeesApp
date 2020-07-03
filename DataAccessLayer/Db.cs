@@ -9,11 +9,16 @@ namespace DataAccessLayer
     {
         static DataContext data;
 
-        static public IQueryable<Employee> SelectEmp(SearchModel model)
+        static public IQueryable<Employee> SortEmployees(SearchModel model)
+        {
+            return SelectEmployees().SortByModel(model);
+        }
+
+        static public IQueryable<Employee> SelectEmployees()
         {
             data = new DataContext();
 
-            IQueryable<Employee> employees = data.Employees.SortByModel(model);
+            IQueryable<Employee> employees = data.Employees;
 
             return employees;
         }

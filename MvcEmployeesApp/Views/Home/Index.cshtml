@@ -70,11 +70,10 @@
                 </tr>
             }
         </table>
-
         <div class="btn-group">
             @Pagination.PageLinks(Model.PageInfo)
             <input type="hidden" name="orderBy" value="@ViewBag.mod.OrderBy" />
-            <input type="hidden" name="page" value="@ViewBag.mod.Page" />
+            <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.Page" : "1")" />
         </div>
     </div>
 </form>

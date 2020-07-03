@@ -11,24 +11,24 @@ namespace MvcEmployeesApp.Controllers
     public class HomeController : Controller
     {
         [HttpGet]
-        public ActionResult Index(SearchModel model)
+        public ActionResult Index()
         {
+            SearchModel model = new SearchModel();
             ViewBag.mod = model;
-            var emp = Db.SelectEmp(model);
-            IQueryable<Employee> employeesPerPages = emp.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, PageSize = model.PageSize, TotalItems = emp.Count() };
-            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Employees = employeesPerPages };
+            IQueryable<Employee> emps = Db.SortEmployees(model);
+            IQueryable<Employee> employeesPerPages = emps.Skip((model.Page - 1) * 5).Take(5);
+            IndexViewModel ivm = new IndexViewModel { Employees = employeesPerPages };
             return View(ivm);
         }
 
         [HttpPost]
-        public ActionResult Index(SearchModel model , IndexViewModel ivm)
+        public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
-            var emp = Db.SelectEmp(model);
-            IQueryable<Employee> employeesPerPages = emp.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, PageSize = model.PageSize, TotalItems = emp.Count() };
-            ivm = new IndexViewModel { PageInfo = pageInfo, Employees = employeesPerPages };
+            IQueryable<Employee> emps = Db.SortEmployees(model);
+            IQueryable<Employee> employeesPerPages = emps.Skip((model.Page - 1) * 5).Take(5);
+            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, TotalItems = emps.Count() };
+            IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Employees = employeesPerPages };
             return View(ivm);
         }
 
@@ -75,6 +75,7 @@ namespace MvcEmployeesApp.Controllers
             return View(editedEmployee);
         }
 
+        [HttpGet]
         public ActionResult Remove(int? id)
         {
             Employee employee = Db.GetEmployeeById(id);
