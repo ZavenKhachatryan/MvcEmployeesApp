@@ -3,28 +3,28 @@
     ViewBag.Title = "Remove";
 }
 
-    <form method="post" class="remove-form">
-        <p class="completeMessage">@ViewBag.WasFoundMessage</p>
-        <p class="errMessage">@ViewBag.ErrMessage</p>
-        <p class="quetion">@ViewBag.Quetion</p>
-        <table class="myTable table table-striped">
-            <tr>
-                <th>@(ViewBag.Btn == "Go Back" ? "Id" : "")</th>
-                <th>@(ViewBag.Btn == "Go Back" ? "First Name" : "")</th>
-                <th>@(ViewBag.Btn == "Go Back" ? "Last Name" : "")</th>
-                <th>@(ViewBag.Btn == "Go Back" ? "Age" : "")</th>
-            </tr>
-            <tr>
-                <td>@Model.Id</td>
-                <td>@Model.FirstName</td>
-                <td>@Model.LastName</td>
-                <td>@Model.Age</td>
-            </tr>
-        </table>
-        <p class="errMessage">@ViewBag.ErrMessage</p>
-        <p class="completeMessage">@ViewBag.CompleteMessage</p>
+<form method="post" class="remove-form">
+    <p class="completeMessage">@ViewBag.WasFoundMessage</p>
+    <p class="errMessage">@ViewBag.ErrMessage</p>
+    <p class="quetion">@ViewBag.Quetion</p>
+    <table class="myTable table table-striped">
+        <tr>
+            <th>@(ViewBag.Btn == "Go Back" ? "Id" : "")</th>
+            <th>@(ViewBag.Btn == "Go Back" ? "First Name" : "")</th>
+            <th>@(ViewBag.Btn == "Go Back" ? "Last Name" : "")</th>
+            <th>@(ViewBag.Btn == "Go Back" ? "Age" : "")</th>
+        </tr>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Age</td>
+        </tr>
+    </table>
+    <p class="errMessage">@ViewBag.ErrMessage</p>
+    <p class="completeMessage">@ViewBag.CompleteMessage</p>
 
-        <input type="@(ViewBag.Btn == "Go Back" ? "submit" : "hidden")" value="Yes" class="btn-yes btn btn-primary" />
+    <input type="@(ViewBag.Btn == "Go Back" ? "submit" : "hidden")" value="Yes" class="btn-yes btn btn-primary" />
 
-        <a href="/Home/Index" class="btn-go-back btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
-    </form>
+    <a href="/Home/Index" class="btn-go-back btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
+</form>

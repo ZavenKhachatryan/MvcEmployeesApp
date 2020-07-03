@@ -20,6 +20,7 @@ namespace DataAccessLayer
 
         static public Employee Edit(Employee emp)
         {
+            //throw new System.Exception();
             using (data = new DataContext())
             {
                 bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);

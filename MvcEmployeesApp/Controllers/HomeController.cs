@@ -10,14 +10,25 @@ namespace MvcEmployeesApp.Controllers
     //[Authentication]
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
             var emp = Db.SelectEmp(model);
-            int pageSize = 6;
-            IQueryable<Employee> employeesPerPages = emp.Skip((model.Page - 1) * pageSize).Take(pageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, PageSize = pageSize, TotalItems = emp.Count() };
+            IQueryable<Employee> employeesPerPages = emp.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, PageSize = model.PageSize, TotalItems = emp.Count() };
             IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Employees = employeesPerPages };
+            return View(ivm);
+        }
+
+        [HttpPost]
+        public ActionResult Index(SearchModel model , IndexViewModel ivm)
+        {
+            ViewBag.mod = model;
+            var emp = Db.SelectEmp(model);
+            IQueryable<Employee> employeesPerPages = emp.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = model.Page, PageSize = model.PageSize, TotalItems = emp.Count() };
+            ivm = new IndexViewModel { PageInfo = pageInfo, Employees = employeesPerPages };
             return View(ivm);
         }
 

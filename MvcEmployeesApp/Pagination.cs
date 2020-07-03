@@ -1,20 +1,23 @@
-﻿using MvcEmployeesApp.Models;
+﻿//using MvcEmployeesApp.Models;
 using System.Text;
 using System.Web.Mvc;
-using MyModels;
+using MvcEmployeesApp.Models;
+
 namespace MvcEmployeesApp
 {
     public static class Pagination
     {
-        public static MvcHtmlString PageLinks(PageInfo pageInfo, SearchModel mod)
+        public static MvcHtmlString PageLinks(PageInfo pageInfo)
         {
             StringBuilder result = new StringBuilder();
             for (int i = 1; i <= pageInfo.TotalPages; i++)
             {
-                TagBuilder tag = new TagBuilder("a");
-                tag.MergeAttribute("href", $"/Home/Index/?searchBy={mod.SearchBy}&searchValue={mod.SearchValue}&orderBy={mod.OrderBy}&page={i.ToString()}");
-                tag.InnerHtml = i.ToString();
-                if (i == mod.Page)
+                TagBuilder tag = new TagBuilder("input");
+                tag.MergeAttribute("type", "submit");
+                tag.MergeAttribute("name", "page");
+                tag.MergeAttribute("value", i.ToString());
+
+                if (i == pageInfo.PageNumber)
                 {
                     tag.AddCssClass("btn-primary");
                 }
