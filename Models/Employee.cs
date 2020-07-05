@@ -1,17 +1,18 @@
 namespace MyModels
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class Employee
     {
         public int? Id { get; set; }
         [Required]
+        //[RegularExpression(@"^([a-zA-Z])$")]
         public string FirstName { get; set; }
         [Required]
+        //[RegularExpression(@"^([a-zA-Z])$")]
         public string LastName { get; set; }
         [Required]
+        [RegularExpression(@"^[1-9]?[0-9]{1}$|^100$")]
         public int? Age { get; set; }
         [Required]
         public decimal Salary { get; set; }
