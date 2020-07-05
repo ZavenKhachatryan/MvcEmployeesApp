@@ -10,12 +10,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
-          <Property Name="Salary" Type="int" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="Phone" Type="int" Nullable="false" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -29,18 +29,18 @@
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="LastName" Type="nvarchar" Mode="In" />
           <Parameter Name="Age" Type="int" Mode="In" />
-          <Parameter Name="Salary" Type="int" Mode="In" />
+          <Parameter Name="Salary" Type="decimal" Mode="In" />
           <Parameter Name="Email" Type="nvarchar" Mode="In" />
-          <Parameter Name="Phone" Type="int" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="EditEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
           <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="LastName" Type="nvarchar" Mode="In" />
           <Parameter Name="Age" Type="int" Mode="In" />
-          <Parameter Name="Salary" Type="int" Mode="In" />
+          <Parameter Name="Salary" Type="decimal" Mode="In" />
           <Parameter Name="Email" Type="nvarchar" Mode="In" />
-          <Parameter Name="Phone" Type="int" Mode="In" />
+          <Parameter Name="Phone" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="RemoveEmp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id" Type="int" Mode="In" />
@@ -59,12 +59,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
-          <Property Name="Salary" Type="Int32" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="Int32" Nullable="false" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -81,18 +81,18 @@
             <Parameter Name="FirstName" Mode="In" Type="String" />
             <Parameter Name="LastName" Mode="In" Type="String" />
             <Parameter Name="Age" Mode="In" Type="Int32" />
-            <Parameter Name="Salary" Mode="In" Type="Int32" />
+            <Parameter Name="Salary" Mode="In" Type="Decimal" />
             <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="Phone" Mode="In" Type="Int32" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="EditEmp">
             <Parameter Name="Id" Mode="In" Type="Int32" />
             <Parameter Name="FirstName" Mode="In" Type="String" />
             <Parameter Name="LastName" Mode="In" Type="String" />
             <Parameter Name="Age" Mode="In" Type="Int32" />
-            <Parameter Name="Salary" Mode="In" Type="Int32" />
+            <Parameter Name="Salary" Mode="In" Type="Decimal" />
             <Parameter Name="Email" Mode="In" Type="String" />
-            <Parameter Name="Phone" Mode="In" Type="Int32" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="RemoveEmp">
             <Parameter Name="Id" Mode="In" Type="Int32" />

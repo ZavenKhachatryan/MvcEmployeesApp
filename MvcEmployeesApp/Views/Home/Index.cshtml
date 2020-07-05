@@ -1,4 +1,4 @@
-﻿@model MvcEmployeesApp.Models.IndexViewModel
+﻿@model MvcEmployeesApp.Models.PaginationModel
 @using MvcEmployeesApp
 @{
     ViewBag.Title = "All Employees";
@@ -73,7 +73,7 @@
         <div class="btn-group">
             @Pagination.PageLinks(Model.PageInfo)
             <input type="hidden" name="orderBy" value="@ViewBag.mod.OrderBy" />
-            <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.Page" : "1")" />
+            <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.PageNumber" : "1")" />
         </div>
     </div>
 </form>

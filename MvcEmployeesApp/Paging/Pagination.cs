@@ -1,12 +1,21 @@
-﻿//using MvcEmployeesApp.Models;
+﻿using MvcEmployeesApp.Models;
+using MyModels;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using MvcEmployeesApp.Models;
 
 namespace MvcEmployeesApp
 {
     public static class Pagination
     {
+        public static PaginationModel GetPaginationModel(this IQueryable<Employee> emps, int pageNumber)
+        {
+            IQueryable<Employee> employeesPerPages = emps.Skip((pageNumber - 1) * 5).Take(5);
+            PageInfo pageInfo = new PageInfo { PageNumber = pageNumber, TotalItems = emps.Count() };
+            PaginationModel pm = new PaginationModel { PageInfo = pageInfo, Employees = employeesPerPages };
+
+            return pm;
+        }
         public static MvcHtmlString PageLinks(PageInfo pageInfo)
         {
             StringBuilder result = new StringBuilder();
@@ -14,7 +23,7 @@ namespace MvcEmployeesApp
             {
                 TagBuilder tag = new TagBuilder("input");
                 tag.MergeAttribute("type", "submit");
-                tag.MergeAttribute("name", "page");
+                tag.MergeAttribute("name", "pageNumber");
                 tag.MergeAttribute("value", i.ToString());
 
                 if (i == pageInfo.PageNumber)
