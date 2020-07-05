@@ -56,6 +56,10 @@
     <Compile Include="EmpExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{aa1d8d14-6d44-4967-b6bf-e3d7d59b457d}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{60612c38-ab47-4913-8a41-a28cea41d09a}</Project>
       <Name>Models</Name>

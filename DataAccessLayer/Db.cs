@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.Data;
-using System.Linq;
+﻿using Exceptions;
 using MyModels;
+using System;
+using System.Linq;
 
 namespace DataAccessLayer
 {
@@ -9,7 +9,7 @@ namespace DataAccessLayer
     {
         static DataContext data;
 
-        static public IQueryable<Employee> SortEmployees(SearchModel model)
+        static public IQueryable<Employee> SortedEmployees(SearchModel model)
         {
             return SelectEmployees().SortByModel(model);
         }
@@ -25,26 +25,41 @@ namespace DataAccessLayer
 
         static public Employee Edit(Employee emp)
         {
-            //throw new System.Exception();
-            using (data = new DataContext())
+            try
             {
-                bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
-                bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
-
-                if (!isExistEmail && !isExistPhone)
+                //throw new System.Exception("Data Not Found");
+                using (data = new DataContext())
                 {
+                    bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
+                    bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
+
+                    if (isExistEmail && isExistPhone)
+                        throw new ExistException("This Email Addres And Phone Number Already Exists");
+
+                    if (isExistEmail)
+                        throw new ExistException("This Email Address Already Exists ");
+
+                    if (isExistPhone)
+                        throw new ExistException("This Phone Number Already Exists");
+
                     if (emp.Id != null)
                     {
                         data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
                         data.SaveChanges();
                     }
-                    else
+
+                    if (emp.Id == null)
                     {
                         data.AddEmp(emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
                         data.SaveChanges();
                     }
+
+                    return data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
                 }
-                return data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
+            }
+            catch (DatabaseException)
+            {
+                throw new DatabaseException("Database Not Found");
             }
         }
 

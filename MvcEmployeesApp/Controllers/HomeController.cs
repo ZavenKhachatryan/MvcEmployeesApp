@@ -1,32 +1,22 @@
-﻿using System.Web.Mvc;
-using MyModels;
-using DataAccessLayer;
-using System.Linq;
+﻿using DataAccessLayer;
+using Exceptions;
 using MvcEmployeesApp.Models;
+using MyModels;
 using System;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace MvcEmployeesApp.Controllers
 {
     //[Authentication]
     public class HomeController : Controller
     {
-        //[HttpGet]
-        //public ActionResult Index()
-        //{
-        //    SearchModel model = new SearchModel();
-        //    ViewBag.mod = model;
-        //    IQueryable<Employee> emps = Db.SortEmployees(model);
-        //    PaginationModel pm = emps.GetPaginationModel(model.PageNumber);
-        //    return View(pm);
-        //}
-
-        //[HttpPost]
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
-            IQueryable<Employee> emps = Db.SortEmployees(model);
-            PaginationModel pm = emps.GetPaginationModel(model.PageNumber);
-            return View(pm);
+            IQueryable<Employee> emps = Db.SortedEmployees(model);
+            PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
+            return View(paginationModel);
         }
 
         [HttpGet]
@@ -46,30 +36,41 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Edit(Employee emp)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                ViewBag.ErrMessage = "One Or More Fields Are Filled Incorrectly";
-                return View(emp);
+                if (!ModelState.IsValid)
+                    throw new ValidationException("One Or More Fields Are Filled Incorrectly");
+
+                Employee editedEmployee = Db.Edit(emp);
+
+                if (emp.Contains(editedEmployee))
+                {
+                    if (emp.Id != null)
+                        ViewBag.CompleteMessage = "Employee Data Is Successfully Edited";
+
+                    if (emp.Id == null)
+                        ViewBag.CompleteMessage = "Employee Data Is Successfully Added";
+
+                    ViewBag.Btn = "Ok";
+                }
+
+                return View(editedEmployee);
+            }
+            catch (DatabaseException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
+            }
+            catch (ExistException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
+            }
+            catch(ValidationException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
             }
 
-            Employee editedEmployee = Db.Edit(emp);
-
-            if (!emp.Contains(editedEmployee))
-            {
-                ViewBag.ErrMessage = "This Email Address And/Or Phone Number Already Exists";
-                ViewBag.Btn = "Go Back";
-            }
-
-            else
-            {
-                if (emp.Id != null)
-                    ViewBag.CompleteMessage = "Employee Data Is Successfully Edited";
-                else
-                    ViewBag.CompleteMessage = "Employee Data Is Successfully Added";
-                ViewBag.Btn = "Ok";
-            }
-
-            return View(editedEmployee);
+            ViewBag.Btn = "Go Back";
+            return View(emp);
         }
 
         [HttpGet]
@@ -79,7 +80,8 @@ namespace MvcEmployeesApp.Controllers
 
             if (employee != null)
                 ViewBag.WasFoundMessage = "Employee Was Found";
-            else
+
+            if (employee == null)
                 ViewBag.ErrMessage = "Employee Was Not Found";
 
             ViewBag.Btn = "Go Back";
@@ -98,7 +100,8 @@ namespace MvcEmployeesApp.Controllers
                 ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
                 ViewBag.Btn = "Ok";
             }
-            else
+
+            if (!isRemovedEmployee)
             {
                 ViewBag.ErrMessage = "Employee Data Was Not Deleted";
                 ViewBag.Btn = "Go Back";
