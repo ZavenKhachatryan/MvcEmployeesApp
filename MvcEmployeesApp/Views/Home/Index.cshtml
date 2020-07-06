@@ -32,29 +32,29 @@
                     <th>
                         ID
                         <div class="btn-group">
-                            <button name="orderBy" value="ascId" class="btn"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="descId" class="btn"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="Id" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="Id" class="btn" onclick="Sort('desc')"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>
                         <label>First Name</label>
                         <div class="btn-group">
-                            <button name="orderBy" value="ascFirst" class="btn"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="descFirst" class="btn"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="FirstName" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="FirstName" class="btn"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>
                         Last Name
                         <div class="btn-group">
-                            <button name="orderBy" value="ascLast" class="btn"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="descLast" class="btn"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="LastName" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="LastName" class="btn"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>
                         Age
                         <div class="btn-group">
-                            <button name="orderBy" value="ascAge" class="btn"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="descAge" class="btn"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="Age" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="Age" class="btn"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>Control</th>
@@ -77,7 +77,14 @@
                 @Pagination.PageLinks(Model.PageInfo)
                 <input type="hidden" name="orderBy" value="@ViewBag.mod.OrderBy" />
                 <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.PageNumber" : "1")" />
+                <input type="hidden" name="AscDesc" value="@ViewBag.mod.AscDesc" id="ascDesc1" class="form-control mr-2" />
             </div>
         </div>
     </form>
 }
+
+<script>
+    function Sort(param) {
+        $("#ascDesc1").val(param);
+    }
+</script>

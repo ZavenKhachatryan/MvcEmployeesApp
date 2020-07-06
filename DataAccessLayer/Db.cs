@@ -1,6 +1,8 @@
 ﻿using Exceptions;
 using MyModels;
 using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -9,18 +11,29 @@ namespace DataAccessLayer
     {
         static DataContext data;
 
-        static public IQueryable<Employee> SortedEmployees(SearchModel model)
-        {
-            return SelectEmployees().SortByModel(model);
-        }
+        //static public IQueryable<Employee> SortedEmployees(SearchModel model)
+        //{
+        //    return SelectEmployees().SortByModel(model);
+        //}
 
-        static public IQueryable<Employee> SelectEmployees()
+        static public IEnumerable<Employee> SelectEmployees(SearchModel model)
         {
             try
             {
                 data = new DataContext();
+                string query = "select * from Employees";
 
-                IQueryable<Employee> employees = data.Employees;
+                if(model.SearchValue != null)
+                {
+                    query += $" where {model.SearchBy} = '{model.SearchValue}'";
+                }
+
+                if(model.OrderBy != null)
+                {
+                    query += " order by " + model.OrderBy;
+                }
+
+                IEnumerable<Employee> employees = data.Database.SqlQuery<Employee>(query);
 
                 return employees;
             }

@@ -3,6 +3,7 @@ using Exceptions;
 using MvcEmployeesApp.Models;
 using MyModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,7 +17,7 @@ namespace MvcEmployeesApp.Controllers
             try
             {
                 ViewBag.mod = model;
-                IQueryable<Employee> emps = Db.SortedEmployees(model);
+                IEnumerable<Employee> emps = Db.SelectEmployees(model);
                 PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
                 return View(paginationModel);
             }
