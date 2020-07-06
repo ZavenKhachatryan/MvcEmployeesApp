@@ -2,8 +2,11 @@
 @{
     ViewBag.Title = "Edit";
 }
-<div>
-    <form method="post">
+<p class="errMessage">@ViewBag.dbErrMessage</p>
+<form method="post">
+    @if (ViewBag.dbErrMessage == null)
+    {
+
         <div class="edit">
             <label>FirstName</label><br>
             <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
@@ -25,9 +28,8 @@
         </div>
         <p class="errMessage">@ViewBag.ErrMessage</p>
         <p class="completeMessage">@ViewBag.CompleteMessage</p>
+    }
 
-        <input type="@(ViewBag.Btn == "Go Back" ? "submit" : "hidden")" value="Submit" class="btn btn-primary" />
-
-        <a href="/Home/Index" class="btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
-    </form>
-</div>
+    <input type="@(ViewBag.Btn == "Go Back" ? "submit" : "hidden")" value="Submit" class="btn btn-primary" />
+    <a href="/Home/Index" class="btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
+</form>

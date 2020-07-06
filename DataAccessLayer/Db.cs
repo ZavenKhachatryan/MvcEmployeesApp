@@ -16,19 +16,25 @@ namespace DataAccessLayer
 
         static public IQueryable<Employee> SelectEmployees()
         {
-            data = new DataContext();
+            try
+            {
+                data = new DataContext();
 
-            IQueryable<Employee> employees = data.Employees;
+                IQueryable<Employee> employees = data.Employees;
 
-            return employees;
+                return employees;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Sorry Server Is Not Found. Please Try Later");
+            }
         }
 
         static public Employee Edit(Employee emp)
         {
-            try
+            using (data = new DataContext())
             {
-                //throw new System.Exception("Data Not Found");
-                using (data = new DataContext())
+                try
                 {
                     bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
                     bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
@@ -56,10 +62,10 @@ namespace DataAccessLayer
 
                     return data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
                 }
-            }
-            catch (DatabaseException)
-            {
-                throw new DatabaseException("Database Not Found");
+                catch (Exception)
+                {
+                    throw new DatabaseException("Sorry Database Not Found. Please Try Later");
+                }
             }
         }
 
@@ -77,9 +83,17 @@ namespace DataAccessLayer
         {
             Employee employee = new Employee();
             using (DataContext data = new DataContext())
-                employee = data.Employees.FirstOrDefault(x => x.Id == id);
-
-            return employee;
+            {
+                try
+                {
+                    employee = data.Employees.FirstOrDefault(x => x.Id == id);
+                    return employee;
+                }
+                catch
+                {
+                    throw new DatabaseException("Sorry Database Not Found. Please Try Later");
+                }
+            }
         }
     }
 }

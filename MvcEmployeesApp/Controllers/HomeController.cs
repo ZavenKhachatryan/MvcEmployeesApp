@@ -13,21 +13,36 @@ namespace MvcEmployeesApp.Controllers
     {
         public ActionResult Index(SearchModel model)
         {
-            ViewBag.mod = model;
-            IQueryable<Employee> emps = Db.SortedEmployees(model);
-            PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
-            return View(paginationModel);
+            try
+            {
+                ViewBag.mod = model;
+                IQueryable<Employee> emps = Db.SortedEmployees(model);
+                PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
+                return View(paginationModel);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
+            }
+            return View();
         }
 
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             ViewBag.Btn = "Go Back";
-
-            if (id != null)
+            try
             {
-                Employee employee = Db.GetEmployeeById(id);
-                return View(employee);
+                if (id != null)
+                {
+                    Employee employee = Db.GetEmployeeById(id);
+                    return View(employee);
+                }
+            }
+            catch (DatabaseException ex)
+            {
+                ViewBag.dbErrMessage = ex.Message;
+                ViewBag.Btn = "Ok";
             }
 
             return View(new Employee());
@@ -58,13 +73,15 @@ namespace MvcEmployeesApp.Controllers
             }
             catch (DatabaseException ex)
             {
-                ViewBag.ErrMessage = ex.Message;
+                ViewBag.dbErrMessage = ex.Message;
+                ViewBag.Btn = "Ok";
+                return View();
             }
             catch (ExistException ex)
             {
                 ViewBag.ErrMessage = ex.Message;
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 ViewBag.ErrMessage = ex.Message;
             }
@@ -112,8 +129,16 @@ namespace MvcEmployeesApp.Controllers
 
         public ActionResult Details(int? id)
         {
-            Employee employee = Db.GetEmployeeById(id);
-            return View(employee);
+            try
+            {
+                Employee employee = Db.GetEmployeeById(id);
+                return View(employee);
+            }
+            catch (DatabaseException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
+            }
+            return View();
         }
     }
 }

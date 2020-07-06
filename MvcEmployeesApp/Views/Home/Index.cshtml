@@ -2,78 +2,82 @@
 @using MvcEmployeesApp
 @{
     ViewBag.Title = "All Employees";
-   
+
 }
 
-<form method="post" class="search-form">
-    <div class="search-bar-with-label">
-        <label class="search-label">Search By</label>
-        <div class="search-bar">
-            <select id="Employees" name="searchBy" class="mySelect custom-select mr-2">
-                <option @(ViewBag.mod.SearchBy == "Id" ? "selected" : "") value="Id">Id</option>
-                <option @(ViewBag.mod.SearchBy == "FirstName" ? "selected" : "") value="FirstName">FirstName</option>
-                <option @(ViewBag.mod.SearchBy == "LastName" ? "selected" : "") value="LastName">LastName</option>
-                <option @(ViewBag.mod.SearchBy == "Age" ? "selected" : "") value="Age">Age</option>
-                <option @(ViewBag.mod.SearchBy == "Position" ? "selected" : "") value="Position">Position</option>
-            </select>
-            <input type="text" name="searchValue" value="@ViewBag.mod.SearchValue" class="form-control mr-2" />
-            <input type="submit" value="Search" class="btn btn-danger">
+<p class="errMessage">@ViewBag.ErrMessage</p>
+@if (ViewBag.ErrMessage == null)
+{
+    <form method="post" class="search-form">
+        <div class="search-bar-with-label">
+            <label class="search-label">Search By</label>
+            <div class="search-bar">
+                <select id="Employees" name="searchBy" class="mySelect custom-select mr-2">
+                    <option @(ViewBag.mod.SearchBy == "Id" ? "selected" : "") value="Id">Id</option>
+                    <option @(ViewBag.mod.SearchBy == "FirstName" ? "selected" : "") value="FirstName">FirstName</option>
+                    <option @(ViewBag.mod.SearchBy == "LastName" ? "selected" : "") value="LastName">LastName</option>
+                    <option @(ViewBag.mod.SearchBy == "Age" ? "selected" : "") value="Age">Age</option>
+                    <option @(ViewBag.mod.SearchBy == "Position" ? "selected" : "") value="Position">Position</option>
+                </select>
+                <input type="text" name="searchValue" value="@ViewBag.mod.SearchValue" class="form-control mr-2" />
+                <input type="submit" value="Search" class="btn btn-danger">
+            </div>
         </div>
-    </div>
-    <div class="btn-a">
-        <a href="/Home/Edit">+ Add</a>
-    </div>
-    <div class="table-div">
-        <table class="myTable table table-striped">
-            <tr>
-                <th>
-                    ID
-                    <div class="btn-group">
-                        <button name="orderBy" value="ascId"  class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="orderBy" value="descId" class="btn"><i class="fa fa-chevron-down"></i></button>
-                    </div>
-                </th>
-                <th>
-                    <label>First Name</label>
-                    <div class="btn-group">
-                        <button name="orderBy" value="ascFirst" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="orderBy" value="descFirst" class="btn"><i class="fa fa-chevron-down"></i></button>
-                    </div>
-                </th>
-                <th>
-                    Last Name
-                    <div class="btn-group">
-                        <button name="orderBy" value="ascLast" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="orderBy" value="descLast" class="btn"><i class="fa fa-chevron-down"></i></button>
-                    </div>
-                </th>
-                <th>
-                    Age
-                    <div class="btn-group">
-                        <button name="orderBy" value="ascAge" class="btn"><i class="fa fa-chevron-up"></i></button>
-                        <button name="orderBy" value="descAge" class="btn"><i class="fa fa-chevron-down"></i></button>
-                    </div>
-                </th>
-                <th>Control</th>
-            </tr>
-            @foreach (var emp in Model.Employees)
-            {
-                <tr class="mytr" onclick="location.href = '/Home/Details/@emp.Id'">
-                    <td>@emp.Id</td>
-                    <td>@emp.FirstName</td>
-                    <td>@emp.LastName</td>
-                    <td>@emp.Age</td>
-                    <td>
-                        <a href="/Home/Edit/@emp.Id" class="btn btn-danger">Edit</a>
-                        <a href="/Home/Remove/@emp.Id" data-target="" class="btn btn-danger">Remove</a>
-                    </td>
+        <div class="btn-a">
+            <a href="/Home/Edit">+ Add</a>
+        </div>
+        <div class="table-div">
+            <table class="myTable table table-striped">
+                <tr>
+                    <th>
+                        ID
+                        <div class="btn-group">
+                            <button name="orderBy" value="ascId" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="descId" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </th>
+                    <th>
+                        <label>First Name</label>
+                        <div class="btn-group">
+                            <button name="orderBy" value="ascFirst" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="descFirst" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </th>
+                    <th>
+                        Last Name
+                        <div class="btn-group">
+                            <button name="orderBy" value="ascLast" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="descLast" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </th>
+                    <th>
+                        Age
+                        <div class="btn-group">
+                            <button name="orderBy" value="ascAge" class="btn"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="descAge" class="btn"><i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </th>
+                    <th>Control</th>
                 </tr>
-            }
-        </table>
-        <div class="btn-group">
-            @Pagination.PageLinks(Model.PageInfo)
-            <input type="hidden" name="orderBy" value="@ViewBag.mod.OrderBy" />
-            <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.PageNumber" : "1")" />
+                @foreach (var emp in Model.Employees)
+                {
+                    <tr class="mytr" onclick="location.href = '/Home/Details/@emp.Id'">
+                        <td>@emp.Id</td>
+                        <td>@emp.FirstName</td>
+                        <td>@emp.LastName</td>
+                        <td>@emp.Age</td>
+                        <td>
+                            <a href="/Home/Edit/@emp.Id" class="btn btn-danger">Edit</a>
+                            <a href="/Home/Remove/@emp.Id" data-target="" class="btn btn-danger">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div class="btn-group">
+                @Pagination.PageLinks(Model.PageInfo)
+                <input type="hidden" name="orderBy" value="@ViewBag.mod.OrderBy" />
+                <input type="hidden" name="page" value="@(ViewBag.mod.SearchValue == "" ? "ViewBag.mod.PageNumber" : "1")" />
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+}

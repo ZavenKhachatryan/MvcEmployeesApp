@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Exceptions;
+using System;
+using System.Linq;
 
 namespace MyModels
 {
@@ -37,6 +39,7 @@ namespace MyModels
                 employees = employees.Where(e => e.Age.ToString() == model.SearchValue);
 
             return employees;
+
         }
 
         public static bool Contains(this Employee thisEmp, Employee emp)

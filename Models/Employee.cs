@@ -6,10 +6,8 @@ namespace MyModels
     {
         public int? Id { get; set; }
         [Required]
-        //[RegularExpression(@"^([a-zA-Z])$")]
         public string FirstName { get; set; }
         [Required]
-        //[RegularExpression(@"^([a-zA-Z])$")]
         public string LastName { get; set; }
         [Required]
         [RegularExpression(@"^[1-9]?[0-9]{1}$|^100$")]
@@ -20,7 +18,7 @@ namespace MyModels
         [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")]
         public string Email { get; set; }
         [Required]
-        [RegularExpression(@"^(0[0-9]{2})([0-9]{6})$")]
+        [RegularExpression(@"^(0[1-9]{2})([0-9]{6})$")]
         public string Phone { get; set; }
     }
 }
