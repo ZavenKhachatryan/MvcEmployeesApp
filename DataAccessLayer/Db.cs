@@ -33,6 +33,11 @@ namespace DataAccessLayer
                     query += " order by " + model.OrderBy;
                 }
 
+                if(model.AscDesc != null)
+                {
+                    query += " " + model.AscDesc;
+                }
+
                 IEnumerable<Employee> employees = data.Database.SqlQuery<Employee>(query);
 
                 return employees;
