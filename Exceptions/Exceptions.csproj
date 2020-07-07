@@ -44,7 +44,6 @@
     <Compile Include="DatabaseException.cs" />
     <Compile Include="ExistException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

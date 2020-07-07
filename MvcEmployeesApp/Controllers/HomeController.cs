@@ -24,6 +24,7 @@ namespace MvcEmployeesApp.Controllers
             {
                 ViewBag.ErrMessage = ex.Message;
             }
+
             return View();
         }
 
@@ -54,7 +55,7 @@ namespace MvcEmployeesApp.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    throw new ValidationException("One Or More Fields Are Filled Incorrectly");
+                    ViewBag.ErrMessage = "One Or More Fields Are Filled Incorrectly";
 
                 Employee editedEmployee = Db.Edit(emp);
 
@@ -81,12 +82,9 @@ namespace MvcEmployeesApp.Controllers
             {
                 ViewBag.ErrMessage = ex.Message;
             }
-            catch (ValidationException ex)
-            {
-                ViewBag.ErrMessage = ex.Message;
-            }
 
             ViewBag.Btn = "Go Back";
+
             return View(emp);
         }
 
@@ -142,6 +140,7 @@ namespace MvcEmployeesApp.Controllers
             {
                 ViewBag.ErrMessage = ex.Message;
             }
+
             return View();
         }
     }
