@@ -95,14 +95,18 @@ namespace MvcEmployeesApp.Controllers
         {
             Employee employee = Db.GetEmployeeById(id);
 
+            if (employee == null)
+            {
+                ViewBag.ErrMessage = "Employee Was Not Found";
+                ViewBag.Btn = "Ok";
+                return View();
+            }
+
             if (employee != null)
                 ViewBag.WasFoundMessage = "Employee Was Found";
 
-            if (employee == null)
-                ViewBag.ErrMessage = "Employee Was Not Found";
-
-            ViewBag.Btn = "Go Back";
             ViewBag.Quetion = "Do you want to remove an employee from the database ?";
+            ViewBag.Btn = "Go Back";
 
             return View(employee);
         }
@@ -124,7 +128,7 @@ namespace MvcEmployeesApp.Controllers
                 ViewBag.Btn = "Go Back";
             }
 
-            return View(new Employee());
+            return View();
         }
 
         public ActionResult Details(int? id)
