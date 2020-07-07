@@ -55,7 +55,11 @@ namespace MvcEmployeesApp.Controllers
             try
             {
                 if (!ModelState.IsValid)
+                {
                     ViewBag.ErrMessage = "One Or More Fields Are Filled Incorrectly";
+                    ViewBag.Btn = "Go Back";
+                    return View(emp);
+                }
 
                 Employee editedEmployee = Db.Edit(emp);
 

@@ -3,33 +3,44 @@
     ViewBag.Title = "Edit";
 }
 <p class="errMessage">@ViewBag.dbErrMessage</p>
-<form method="post">
+<form method="post" id="editForm">
     @if (ViewBag.dbErrMessage == null)
     {
 
         <div class="edit">
             <label>FirstName</label><br>
-            <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" />
+            <input type="text" name="FirstName" value="@Model.FirstName" class="form-control" data-validate="required,name" data-validate-name="First Name" />
+            <p class="validateMessage"></p>
 
             <label>LastName</label><br>
-            <input type="text" name="LastName" value="@Model.LastName" class="form-control" />
+            <input type="text" name="LastName" value="@Model.LastName" class="form-control" data-validate="required,name" data-validate-name="Last Name" />
+            <p class="validateMessage"></p>
 
             <label>Age</label><br>
-            <input type="number" name="Age" value="@Model.Age" class="form-control" />
+            <input type="number" name="Age" value="@Model.Age" class="form-control" data-validate="required,age" data-validate-name="Age" />
+            <p class="validateMessage"></p>
 
             <label>Salary</label><br>
-            <input type="text" name="Salary" value="@Model.Salary" class="form-control" />
+            <input type="text" name="Salary" value="@Model.Salary" class="form-control" data-validate="required" />
+            <p class="validateMessage"></p>
 
             <label>Email</label><br>
-            <input type="text" name="Email" value="@Model.Email" class="form-control" />
+            <input type="text" name="Email" value="@Model.Email" class="form-control" data-validate="required,email" data-validate-name="Email" />
+            <p class="validateMessage"></p>
 
             <label>Phone</label><br>
-            <input type="text" name="Phone" value="@Model.Phone" class="form-control" />
+            <input type="text" name="Phone" value="@Model.Phone" class="form-control" data-validate="required,phone" data-validate-name="Phone" />
+            <p class="validateMessage"></p>
+
         </div>
-        <p class="errMessage">@ViewBag.ErrMessage</p>
+        <p class="errMessage" id="demo">@ViewBag.ErrMessage</p>
         <p class="completeMessage">@ViewBag.CompleteMessage</p>
     }
 
-    <input type="@(ViewBag.Btn == "Go Back" ? "submit" : "hidden")" value="Submit" class="btn btn-primary" />
+    <input type="@(ViewBag.Btn == "Go Back" ? "button" : "hidden")" onclick="validate()" value="Submit" class="btn btn-primary" />
     <a href="/Home/Index" class="btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
 </form>
+@section scripts{
+
+    <script src="~/Scripts/MyJS.js"></script>
+}

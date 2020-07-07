@@ -6,8 +6,10 @@ namespace MyModels
     {
         public int? Id { get; set; }
         [Required]
+        [RegularExpression(@"^([a-zA-z]+)$")]
         public string FirstName { get; set; }
         [Required]
+        [RegularExpression(@"^([a-zA-z]+)$")]
         public string LastName { get; set; }
         [Required]
         [RegularExpression(@"^[1-9]?[0-9]{1}$|^100$")]
