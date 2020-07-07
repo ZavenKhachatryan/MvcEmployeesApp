@@ -90,6 +90,6 @@ textarea {
     color: #28a745;
     font-weight: 600;
 }
-.editView{
-
+.mytr{
+    cursor: pointer;
 }

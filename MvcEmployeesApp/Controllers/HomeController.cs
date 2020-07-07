@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace MvcEmployeesApp.Controllers
 {
-    //[Authentication]
     public class HomeController : Controller
     {
         public ActionResult Index(SearchModel model)

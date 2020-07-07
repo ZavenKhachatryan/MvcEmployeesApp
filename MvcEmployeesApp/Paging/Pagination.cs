@@ -1,7 +1,5 @@
-﻿using Exceptions;
-using MvcEmployeesApp.Models;
+﻿using MvcEmployeesApp.Models;
 using MyModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +11,10 @@ namespace MvcEmployeesApp
     {
         public static PaginationModel GetPaginationModel(this IEnumerable<Employee> emps, int pageNumber)
         {
-            //try
-            //{
             IEnumerable<Employee> employeesPerPages = emps.Skip((pageNumber - 1) * 5).Take(5);
             PageInfo pageInfo = new PageInfo { PageNumber = pageNumber, TotalItems = emps.Count() };
             PaginationModel pm = new PaginationModel { PageInfo = pageInfo, Employees = employeesPerPages };
             return pm;
-            //}
-            //catch (Exception)
-            //{
-            //    throw new Exception("Sorry Server Is Not Found. Please Try Later");
-            //}
-
         }
         public static MvcHtmlString PageLinks(PageInfo pageInfo)
         {

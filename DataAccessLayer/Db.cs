@@ -11,32 +11,13 @@ namespace DataAccessLayer
     {
         static DataContext data;
 
-        //static public IQueryable<Employee> SortedEmployees(SearchModel model)
-        //{
-        //    return SelectEmployees().SortByModel(model);
-        //}
-
         static public IEnumerable<Employee> SelectEmployees(SearchModel model)
         {
             try
             {
                 data = new DataContext();
-                string query = "select * from Employees";
 
-                if(model.SearchValue != null)
-                {
-                    query += $" where {model.SearchBy} = '{model.SearchValue}'";
-                }
-
-                if(model.OrderBy != null)
-                {
-                    query += " order by " + model.OrderBy;
-                }
-
-                if(model.AscDesc != null)
-                {
-                    query += " " + model.AscDesc;
-                }
+                string query = GetQueryString(model);
 
                 IEnumerable<Employee> employees = data.Database.SqlQuery<Employee>(query);
 
@@ -46,6 +27,22 @@ namespace DataAccessLayer
             {
                 throw new Exception("Sorry Server Is Not Found. Please Try Later");
             }
+        }
+
+        private static string GetQueryString (SearchModel model)
+        {
+            string query = "select * from Employees";
+
+            if (model.SearchValue != null)
+                query += $" where {model.SearchBy} = '{model.SearchValue}'";
+
+            if (model.OrderBy != null)
+                query += " order by " + model.OrderBy;
+
+            if (model.AscDesc != null)
+                query += " " + model.AscDesc;
+
+            return query;
         }
 
         static public Employee Edit(Employee emp)
