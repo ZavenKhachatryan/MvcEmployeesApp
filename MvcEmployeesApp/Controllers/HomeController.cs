@@ -16,7 +16,7 @@ namespace MvcEmployeesApp.Controllers
             try
             {
                 ViewBag.mod = model;
-                IEnumerable<Employee> emps = Db.SelectEmployees(model);
+                IEnumerable<Employee> emps = Db.SelectFilteredEmployees(model);
                 PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
                 return View(paginationModel);
             }

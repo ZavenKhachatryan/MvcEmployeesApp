@@ -36,7 +36,7 @@ function validate() {
                 }
             }
             if (item == "age") {
-                if (isNaN(!$this.val()) || !$this.val() < 1 || !$this.val() > 101) {
+                if (isNaN(!$this.val()) || !$this.val().val < 1 || !$this.val().val > 101) {
                     $this.next(".validateMessage").html($this.attr("data-validate-name") + " Is Invalid")
                     isError = false;
                 }

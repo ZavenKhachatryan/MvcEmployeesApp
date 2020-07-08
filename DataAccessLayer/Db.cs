@@ -2,15 +2,16 @@
 using MyModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace DataAccessLayer
 {
-    static public class Db
+    public static class Db
     {
         static DataContext data;
 
-        static public IEnumerable<Employee> SelectEmployees(SearchModel model)
+        public static DbRawSqlQuery<Employee> SelectFilteredEmployees(SearchModel model)
         {
             try
             {
@@ -18,7 +19,7 @@ namespace DataAccessLayer
 
                 string query = GetQueryString(model);
 
-                IEnumerable<Employee> employees = data.Database.SqlQuery<Employee>(query);
+                DbRawSqlQuery<Employee> employees = data.Database.SqlQuery<Employee>(query);
 
                 return employees;
             }
@@ -28,7 +29,7 @@ namespace DataAccessLayer
             }
         }
 
-        private static string GetQueryString (SearchModel model)
+        private static string GetQueryString(SearchModel model)
         {
             string query = "select * from Employees";
 
@@ -36,15 +37,15 @@ namespace DataAccessLayer
                 query += $" where {model.SearchBy} = '{model.SearchValue}'";
 
             if (model.OrderBy != null)
-                query += " order by " + model.OrderBy;
+                query += $" order by {model.OrderBy}";
 
             if (model.AscDesc != null)
-                query += " " + model.AscDesc;
+                query += $" {model.AscDesc}";
 
             return query;
         }
 
-        static public Employee Edit(Employee emp)
+        public static Employee Edit(Employee emp)
         {
             using (data = new DataContext())
             {
@@ -83,7 +84,7 @@ namespace DataAccessLayer
             }
         }
 
-        static public bool Remove(Employee emp)
+        public static bool Remove(Employee emp)
         {
             using (data = new DataContext())
             {
@@ -93,7 +94,7 @@ namespace DataAccessLayer
             }
         }
 
-        static public Employee GetEmployeeById(int? id)
+        public static Employee GetEmployeeById(int? id)
         {
             Employee employee = new Employee();
             using (DataContext data = new DataContext())
