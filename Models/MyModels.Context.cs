@@ -4,6 +4,7 @@
     using System.Data.Entity;
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+    using System.Data.SqlClient;
 
     public partial class DataContext : DbContext
     {
@@ -11,7 +12,12 @@
             : base("name=DataContext")
         {
         }
-    
+
+        public DataContext(string connection)
+        {
+            Database.Connection.ConnectionString = connection;
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

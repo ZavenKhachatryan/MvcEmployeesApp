@@ -11,12 +11,17 @@ namespace MvcEmployeesApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IDataAccess dataAccess;
+        public HomeController(IDataAccess dataAccess)
+        {
+            this.dataAccess = dataAccess;
+        }
         public ActionResult Index(SearchModel model)
         {
             try
             {
                 ViewBag.mod = model;
-                IEnumerable<Employee> emps = Db.SelectFilteredEmployees(model);
+                IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
                 PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
                 return View(paginationModel);
             }
@@ -36,7 +41,7 @@ namespace MvcEmployeesApp.Controllers
             {
                 if (id != null)
                 {
-                    Employee employee = Db.GetEmployeeById(id);
+                    Employee employee = dataAccess.GetEmployeeById(id);
                     return View(employee);
                 }
             }
@@ -61,7 +66,7 @@ namespace MvcEmployeesApp.Controllers
                     return View(emp);
                 }
 
-                Employee editedEmployee = Db.Edit(emp);
+                Employee editedEmployee = dataAccess.Edit(emp);
 
                 if (emp.Contains(editedEmployee))
                 {
@@ -95,7 +100,7 @@ namespace MvcEmployeesApp.Controllers
         [HttpGet]
         public ActionResult Remove(int? id)
         {
-            Employee employee = Db.GetEmployeeById(id);
+            Employee employee = dataAccess.GetEmployeeById(id);
 
             if (employee == null)
             {
@@ -116,7 +121,7 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Remove(Employee emp)
         {
-            bool isRemovedEmployee = Db.Remove(emp);
+            bool isRemovedEmployee = dataAccess.Remove(emp);
 
             if (isRemovedEmployee)
             {
@@ -137,7 +142,7 @@ namespace MvcEmployeesApp.Controllers
         {
             try
             {
-                Employee employee = Db.GetEmployeeById(id);
+                Employee employee = dataAccess.GetEmployeeById(id);
                 return View(employee);
             }
             catch (DatabaseException ex)

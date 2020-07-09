@@ -14,7 +14,7 @@ function validate() {
         $this = $(this);
         let attributes = $this.attr("data-validate").split(",");
         $.each(attributes, function (index, item) {
-            $this.next(".validateMessage").html("")    
+            $this.next(".validateMessage").html("")
             if (item == "required") {
                 if ($this.val() == "") {
                     $this.next(".validateMessage").html($this.attr("data-validate-name") + " Is Required")
@@ -31,7 +31,7 @@ function validate() {
             if (item == "name") {
                 if (!$this.val().match(validName)) {
                     $this.next(".validateMessage").html($this.attr("data-validate-name") + " Is Invalid")
-                   
+
                     isError = false;
                 }
             }
@@ -49,7 +49,14 @@ function validate() {
             }
         })
     })
-    if (isError) {
+    return isError;
+    //if (isError) {
+    //    $("#editForm").submit(); 
+    //}
+}
+
+function submit() {
+    if (validate()) {
         $("#editForm").submit();
     }
 }
