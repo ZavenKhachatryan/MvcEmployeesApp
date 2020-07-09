@@ -2,6 +2,11 @@
     $(document).on("keyup", "input[data-validate]", function () {
         validate();
     })
+    $(document).on("click", "#saveEmploye", function () {
+        if (validate()) {
+            $("#editForm").submit();
+        }
+    })
 })
 
 function validate() {
@@ -50,13 +55,4 @@ function validate() {
         })
     })
     return isError;
-    //if (isError) {
-    //    $("#editForm").submit(); 
-    //}
-}
-
-function submit() {
-    if (validate()) {
-        $("#editForm").submit();
-    }
 }
