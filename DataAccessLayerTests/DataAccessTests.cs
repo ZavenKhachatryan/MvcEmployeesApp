@@ -9,6 +9,7 @@ namespace DataAccessLayer.Tests
     public class DataAccessTests
     {
         private readonly IDataAccess dataAccess;
+
         [TestMethod()]
         public void SelectFilteredEmployees_IsNOtNull()
         {

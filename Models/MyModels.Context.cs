@@ -12,10 +12,10 @@
         {
         }
 
-        //public DataContext(string connection)
-        //{
-        //    Database.Connection.ConnectionString = connection;
-        //}
+        public DataContext(string connection)
+        {
+            Database.Connection.ConnectionString = connection;
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
