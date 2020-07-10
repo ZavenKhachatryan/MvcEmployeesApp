@@ -8,8 +8,11 @@ namespace DataAccessLayer.Tests
     [TestClass()]
     public class DataAccessTests
     {
-        private readonly IDataAccess dataAccess;
-
+        private IDataAccess dataAccess;
+        public DataAccessTests()
+        {
+            dataAccess = new DataAccess(new DataContext());
+        }
         [TestMethod()]
         public void SelectFilteredEmployees_IsNOtNull()
         {
