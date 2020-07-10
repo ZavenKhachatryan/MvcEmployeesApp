@@ -7,6 +7,12 @@
             $("#editForm").submit();
         }
     })
+    $(document).on("click", "#asc", function () {
+        $("#ascDesc").val('asc');
+    })
+    $(document).on("click", "#desc", function () {
+        $("#ascDesc").val('desc');
+    })
 })
 
 function validate() {

@@ -1,7 +1,6 @@
 ﻿using Exceptions;
 using MyModels;
 using System;
-using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 
@@ -76,7 +75,8 @@ namespace DataAccessLayer
                     data.SaveChanges();
                 }
 
-                return data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
+                DbRawSqlQuery<Employee> employee = data.Database.SqlQuery<Employee>($"Select * From Employees WHERE Email = '{emp.Email}'");
+                return employee.FirstOrDefault();
             }
             catch (DatabaseException)
             {
@@ -100,21 +100,15 @@ namespace DataAccessLayer
 
         public Employee GetEmployeeById(int? id)
         {
-            Employee employee = new Employee();
             try
             {
-                employee = data.Employees.FirstOrDefault(x => x.Id == id);
-                return employee;
+                DbRawSqlQuery<Employee> employee = data.Database.SqlQuery<Employee>($"SELECT * FROM Employees WHERE Id = '{id}'");
+                return employee.FirstOrDefault();
             }
             catch
             {
                 throw new DatabaseException("Sorry Database Not Found. Please Try Later");
             }
-        }
-
-        public void Dispose()
-        {
-            data.Dispose();
         }
     }
 }

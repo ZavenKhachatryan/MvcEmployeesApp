@@ -77,9 +77,8 @@ namespace MvcEmployeesApp.Controllers
                         ViewBag.CompleteMessage = "Employee Data Is Successfully Added";
 
                     ViewBag.Btn = "Ok";
+                    return View(editedEmployee);
                 }
-
-                return View(editedEmployee);
             }
             catch (DatabaseException ex)
             {

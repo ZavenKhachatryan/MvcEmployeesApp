@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Http;
+using System.Web.Mvc;
 
 namespace MvcEmployeesApp.Areas.Areas
 {
@@ -8,15 +9,15 @@ namespace MvcEmployeesApp.Areas.Areas
         {
             get 
             {
-                return "Areas";
+                return "EmployeesApi";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            context.MapRoute(
+            context.Routes.MapHttpRoute(
                 "Areas_default",
-                "Areas/{controller}/{action}/{id}",
+                "api/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

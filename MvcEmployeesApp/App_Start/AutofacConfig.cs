@@ -4,11 +4,8 @@ using Autofac.Integration.WebApi;
 using DataAccessLayer;
 using MvcEmployee;
 using MyModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 using System.Reflection;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 
@@ -29,7 +26,7 @@ namespace MvcEmployeesApp.App_Start
             container.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             container.RegisterType<DataAccess>().As<IDataAccess>()
-                     .WithParameter("data", new DataContext());
+                     .WithParameter("data", new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString));
 
             return container.Build();
         }

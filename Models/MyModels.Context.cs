@@ -7,18 +7,16 @@
 
     public partial class DataContext : DbContext
     {
-        public DataContext()
-            : base("name=DataContext")
+        public DataContext(): base("DataContext")
         {
         }
 
-        public DataContext(string connection)
+        public DataContext(string connection):base(connection)
         {
-            Database.Connection.ConnectionString = connection;
-        }
+        }        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
+        {         
             throw new UnintentionalCodeFirstException();
         }
     

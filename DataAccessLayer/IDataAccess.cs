@@ -1,5 +1,4 @@
 ﻿using MyModels;
-using System;
 using System.Data.Entity.Infrastructure;
 
 namespace DataAccessLayer

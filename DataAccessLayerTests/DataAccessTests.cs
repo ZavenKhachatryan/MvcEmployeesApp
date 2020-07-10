@@ -1,17 +1,20 @@
 ﻿using Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MyModels;
+using System;
 using System.Linq;
 
 namespace DataAccessLayer.Tests
 {
     [TestClass()]
-    public class DataAccessTests
+    public class DataAccessTests : IDisposable
     {
         private IDataAccess dataAccess;
+        private DataContext data;
         public DataAccessTests()
         {
             dataAccess = new DataAccess(new DataContext());
+            data = new DataContext();
         }
         [TestMethod()]
         public void SelectFilteredEmployees_IsNOtNull()
@@ -22,130 +25,88 @@ namespace DataAccessLayer.Tests
         [TestMethod()]
         public void SelectFilteredEmployees_IsGetAllEmployees()
         {
-            using (DataContext data = new DataContext())
-            {
-                string sEmpsStr = dataAccess.SelectFilteredEmployees(new SearchModel()).ToString();
-                string dEmpsStr = "select * from Employees";
+            string sEmpsStr = dataAccess.SelectFilteredEmployees(new SearchModel()).ToString();
+            string dEmpsStr = "select * from Employees";
 
-                Assert.AreEqual(sEmpsStr, dEmpsStr);
-            }
+            Assert.AreEqual(sEmpsStr, dEmpsStr);
+
         }
 
         [TestMethod()]
         public void SelectFilteredEmployees_IsGetTrueEmployees_WithSearchValue()
         {
-            using (DataContext data = new DataContext())
-            {
-                SearchModel model = new SearchModel();
-                model.SearchBy = "FirstName";
-                model.SearchValue = "Zaven";
+            SearchModel model = new SearchModel();
+            model.SearchBy = "FirstName";
+            model.SearchValue = "Zaven";
 
-                string sEmpsStr = dataAccess.SelectFilteredEmployees(model).ToString();
-                string dEmpsStr = $"select * from Employees where FirstName = 'Zaven'";
+            string sEmpsStr = dataAccess.SelectFilteredEmployees(model).ToString();
+            string dEmpsStr = $"select * from Employees where FirstName = 'Zaven'";
 
-                Assert.AreEqual(sEmpsStr, dEmpsStr);
-            }
+            Assert.AreEqual(sEmpsStr, dEmpsStr);
         }
 
         [TestMethod()]
         public void SelectFilteredEmployees_IsGetTrueEmployees_WithOrderBy()
         {
-            using (DataContext data = new DataContext())
-            {
-                SearchModel model = new SearchModel();
-                model.OrderBy = "FirstName";
-                model.AscDesc = "desc";
+            SearchModel model = new SearchModel();
+            model.OrderBy = "FirstName";
+            model.AscDesc = "desc";
 
-                string sEmpsStr = dataAccess.SelectFilteredEmployees(model).ToString();
-                string dEmpsStr = $"select * from Employees order by FirstName desc";
+            string sEmpsStr = dataAccess.SelectFilteredEmployees(model).ToString();
+            string dEmpsStr = $"select * from Employees order by FirstName desc";
 
-                Assert.AreEqual(sEmpsStr, dEmpsStr);
-            }
+            Assert.AreEqual(sEmpsStr, dEmpsStr);
         }
 
-        [TestMethod()]
-        public void EditTest_ChangeOk()
-        {
-            using (DataContext data = new DataContext())
-            {
-                Employee addedEmp = GetLastAddedEmployee(data);
-                addedEmp.Age = 24;
-
-                Employee changedEmp = new Employee()
-                {
-                    FirstName = "test",
-                    LastName = "testyan",
-                    Age = 24,
-                    Salary = 1,
-                    Email = "test@mail.ru",
-                    Phone = "018111111"
-                };
-
-                Employee editedEmp = dataAccess.Edit(addedEmp);
-                bool isContains = editedEmp.Contains(changedEmp);
-                dataAccess.Remove(addedEmp);
-
-                Assert.IsTrue(isContains);
-            }
-        }
         [TestMethod()]
         public void EditTest_AddOk()
         {
-            using (DataContext data = new DataContext())
-            {
-                Employee emp = CreateEmployee();
+            Employee emp = CreateEmployee();
 
-                Employee addedEmp = dataAccess.Edit(emp);
-                bool isAdded = emp.Contains(addedEmp);
+            Employee addedEmp = dataAccess.Edit(emp);
 
-                dataAccess.Remove(addedEmp);
-
-                Assert.IsTrue(isAdded);
-            }
+            Assert.IsTrue(emp.Contains(addedEmp));
         }
 
         [TestMethod()]
         public void EditTest_Add_ExistExceptionOk()
         {
-            using (DataContext data = new DataContext())
-            {
-                Employee emp = CreateEmployee();
+            Employee emp = CreateEmployee();
 
-                Employee addedEmp = dataAccess.Edit(emp);
-                Assert.ThrowsException<ExistException>(() => dataAccess.Edit(emp));
-                dataAccess.Remove(addedEmp);
-            }
-        }
-
-        [TestMethod()]
-        public void RemoveTest_Ok()
-        {
-            using (DataContext data = new DataContext())
-            {
-                Employee addedEmp = GetLastAddedEmployee(data);
-                Assert.IsTrue(dataAccess.Remove(addedEmp));
-            }
+            Assert.ThrowsException<ExistException>(() => dataAccess.Edit(emp));
         }
 
         [TestMethod()]
         public void GetEmployeeByIdTest_Ok()
         {
-            using (DataContext data = new DataContext())
-            {
-                Employee addedEmp = GetLastAddedEmployee(data);
+                Employee lastEmp = GetLastEmployee(data);
 
-                Employee getEmpById = dataAccess.GetEmployeeById(addedEmp.Id);
-                bool isGetTrueEmployee = addedEmp.Contains(getEmpById);
-                dataAccess.Remove(addedEmp);
+                Employee getEmpById = dataAccess.GetEmployeeById(lastEmp.Id);
 
-                Assert.IsNotNull(isGetTrueEmployee);
-            }
+                Assert.IsNotNull(lastEmp.Contains(getEmpById));
         }
-        private Employee GetLastAddedEmployee(DataContext data)
-        {
-            Employee emp = CreateEmployee();
-            Employee addedEmp = dataAccess.Edit(emp);
 
+        [TestMethod()]
+        public void EditTest_ChangeOk()
+        {
+            Employee lastEmp = GetLastEmployee(data);
+            lastEmp.Age = 56;
+
+            Employee editedEmp = dataAccess.Edit(lastEmp);
+            bool isContains = editedEmp.Contains(lastEmp);
+
+            Assert.IsTrue(isContains);
+        }
+
+        [TestMethod()]
+        public void RemoveTest_Ok()
+        {
+            Employee lastEmp = GetLastEmployee(data);
+            Assert.IsTrue(dataAccess.Remove(lastEmp));
+        }
+
+        private Employee GetLastEmployee(DataContext data)
+        {
             return data.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
         }
         private Employee CreateEmployee()
@@ -163,5 +124,9 @@ namespace DataAccessLayer.Tests
             return emp;
         }
 
+        public void Dispose()
+        {
+            data.Dispose();
+        }
     }
 }
