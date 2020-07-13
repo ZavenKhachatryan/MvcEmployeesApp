@@ -1,5 +1,6 @@
 ﻿using Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using MyModels;
 using System;
 using System.Linq;
@@ -9,12 +10,15 @@ namespace DataAccessLayer.Tests
     [TestClass()]
     public class DataAccessTests : IDisposable
     {
-        private IDataAccess dataAccess;
-        private DataContext data;
+        private readonly Mock<IDataAccess> mockDataAccess;
+        private readonly IDataAccess dataAccess;
+        private readonly DataContext data;
+
         public DataAccessTests()
         {
-            dataAccess = new DataAccess(new DataContext());
             data = new DataContext();
+            mockDataAccess = new Mock<IDataAccess>();
+            dataAccess = new DataAccess(new DataContext());
         }
         [TestMethod()]
         public void SelectFilteredEmployees_IsNOtNull()
@@ -29,7 +33,6 @@ namespace DataAccessLayer.Tests
             string dEmpsStr = "select * from Employees";
 
             Assert.AreEqual(sEmpsStr, dEmpsStr);
-
         }
 
         [TestMethod()]
