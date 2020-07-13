@@ -1,8 +1,8 @@
 ﻿using DataAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using MvcEmployeesApp.Models;
 using MyModels;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http.Results;
 
@@ -12,20 +12,32 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
     public class EmployeesApiControllerTests
     {
         private readonly EmployeesApiController controller;
-        private readonly Mock<IDataAccess> mockDataAccess;
+        private readonly EmployeesApiController fakeController;
         private readonly IDataAccess dataAccess;
+        private readonly IDataAccess fakeDataAccess;
         private readonly DataContext data;
+        private string dbErrMsg = "Sorry Server Was Not Found. Please Try Later";
 
         public EmployeesApiControllerTests()
         {
-            mockDataAccess = new Mock<IDataAccess>();
             dataAccess = new DataAccess(new DataContext());
+            fakeDataAccess = new DataAccess(new DataContext(ConfigurationManager.ConnectionStrings["FakeData"].ConnectionString));
             controller = new EmployeesApiController(dataAccess);
+            fakeController = new EmployeesApiController(fakeDataAccess);
             data = new DataContext();
         }
 
         [TestMethod()]
-        public void GetEmployeesTest_Ok()
+        public void GetEmployeesTest_DatabaseException()
+        {
+            BadRequestErrorMessageResult getEmp =
+                fakeController.GetEmployees(new SearchModel()) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(getEmp.Message == dbErrMsg);
+        }
+
+        [TestMethod()]
+        public void A_GetEmployeesTest_Ok()
         {
             OkNegotiatedContentResult<PaginationModel> result =
                 controller.GetEmployees(new SearchModel()) as OkNegotiatedContentResult<PaginationModel>;
@@ -34,9 +46,18 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         }
 
         [TestMethod()]
-        public void EditTest_GetEmployeeById_Ok()
+        public void EditTest_Get_DatabaseException()
         {
-            Employee employee = GetLastEmployee(data);
+            BadRequestErrorMessageResult getEmp =
+                fakeController.Edit(1) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(dbErrMsg == getEmp.Message);
+        }
+
+        [TestMethod()]
+        public void B_EditTest_Get_EmployeeById_Ok()
+        {
+            Employee employee = GetLastEmployee();
 
             OkNegotiatedContentResult<Employee> getedEmployee =
                 controller.Edit(employee.Id) as OkNegotiatedContentResult<Employee>;
@@ -45,7 +66,7 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         }
 
         [TestMethod()]
-        public void EditTest_GetEmptyEmployee_Ok()
+        public void C_EditTest_Get_EmptyEmployee_Ok()
         {
             int? id = null;
 
@@ -56,32 +77,161 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         }
 
         [TestMethod()]
-        public void EditTest_Post()
+        public void GetDetailsTest_DatabaseException()
         {
-            Assert.Fail();
+            Employee employee = GetLastEmployee();
+
+            BadRequestErrorMessageResult getEmp =
+                fakeController.GetDetails(employee.Id) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(dbErrMsg == getEmp.Message);
         }
 
         [TestMethod()]
-        public void RemoveTest()
+        public void D1_GetDetailsTest_Ok()
         {
-            Assert.Fail();
+            Employee emp = GetLastEmployee();
+
+            OkNegotiatedContentResult<Employee> getById =
+                controller.GetDetails(emp.Id) as OkNegotiatedContentResult<Employee>;
+
+            Assert.IsTrue(emp.Contains(getById.Content));
         }
 
         [TestMethod()]
-        public void RemoveTest1()
+        public void D2_GetDetailsTest_IdOutOfRange_Ok()
         {
-            Assert.Fail();
+            BadRequestErrorMessageResult getById =
+                controller.GetDetails(-1) as BadRequestErrorMessageResult;
+
+            string getMsg = getById.Message;
+            string outRangeMsg = "Wrong Id";
+
+            Assert.IsTrue(getMsg.Contains(outRangeMsg));
         }
 
         [TestMethod()]
-        public void GetDetailsTest()
+        public void EditTest_Post_DatabaseException()
         {
-            Assert.Fail();
+            Employee employee = GetLastEmployee();
+
+            BadRequestErrorMessageResult getEmp =
+                fakeController.Edit(employee) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(dbErrMsg == getEmp.Message);
         }
 
-        private Employee GetLastEmployee(DataContext data)
+        [TestMethod()]
+        public void E_EditTest_Post_Add_Ok()
+        {
+            Employee emp = CreateEmployee();
+
+            OkNegotiatedContentResult<Employee> editedEmployee =
+                controller.Edit(emp) as OkNegotiatedContentResult<Employee>;
+
+            Assert.IsTrue(emp.Contains(editedEmployee.Content));
+        }
+
+        [TestMethod()]
+        public void F_EditTest_Post_AddExistException_Ok()
+        {
+            Employee emp = CreateEmployee();
+            string emailAndPhoneThrowMsg = "This Email Addres And Phone Number Already Exists";
+            string emailThrowMsg = "This Email Address Already Exists";
+            string phoneThrowMsg = "This Phone Number Already Exists";
+
+            BadRequestErrorMessageResult request = controller.Edit(emp) as BadRequestErrorMessageResult;
+            string reqMes = request.Message;
+
+            Assert.IsTrue(reqMes == emailAndPhoneThrowMsg || reqMes == emailThrowMsg || reqMes == phoneThrowMsg);
+        }
+
+        [TestMethod]
+        public void G_EditTest_Post_Change_Ok()
+        {
+            Employee emp = GetLastEmployee();
+            emp.Age = 25;
+
+            OkNegotiatedContentResult<Employee> editedEmployee =
+                controller.Edit(emp) as OkNegotiatedContentResult<Employee>;
+
+            Assert.IsTrue(emp.Contains(editedEmployee.Content));
+        }
+
+        [TestMethod()]
+        public void RemoveTest_Get_DatabaseException()
+        {
+            Employee employee = GetLastEmployee();
+
+            BadRequestErrorMessageResult getEmp =
+                fakeController.Remove(employee.Id) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(dbErrMsg == getEmp.Message);
+        }
+
+        [TestMethod()]
+        public void H_RemoveTest_GetEmployee_Ok()
+        {
+            Employee employee = GetLastEmployee();
+
+            OkNegotiatedContentResult<Employee> getREmp =
+                controller.Remove(employee.Id) as OkNegotiatedContentResult<Employee>;
+
+            Assert.IsTrue(employee.Contains(getREmp.Content));
+        }
+
+        [TestMethod()]
+        public void I_RemoveTest_Get_IdOutOfRange_Ok()
+        {
+            BadRequestErrorMessageResult getREmp =
+                controller.Remove(-1) as BadRequestErrorMessageResult;
+
+            string outMsg = getREmp.Message;
+            string outRangeMsg = "Wrong Id";
+
+            Assert.IsTrue(outMsg.Contains(outRangeMsg));
+        }
+
+        [TestMethod()]
+        public void RemoveTest_Post_DatabaseException()
+        {
+            Employee employee = GetLastEmployee();
+
+            BadRequestErrorMessageResult getEmp =
+                fakeController.Remove(employee) as BadRequestErrorMessageResult;
+
+            Assert.IsTrue(dbErrMsg == getEmp.Message);
+        }
+
+        [TestMethod()]
+        public void J_RemoveTest_Post_()
+        {
+            Employee emp = GetLastEmployee();
+
+            OkNegotiatedContentResult<bool> isRemoved =
+                controller.Remove(emp) as OkNegotiatedContentResult<bool>;
+
+            Assert.IsTrue(isRemoved.Content == true);
+        }
+
+        private Employee GetLastEmployee()
         {
             return data.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
+        }
+
+        private Employee CreateEmployee()
+        {
+            Employee emp = new Employee()
+            {
+                FirstName = "test",
+                LastName = "testyan",
+                Age = 23,
+                Salary = 1,
+                Email = "test@mail.ru",
+                Phone = "018111111"
+            };
+
+            return emp;
         }
     }
 }

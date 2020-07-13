@@ -25,9 +25,9 @@ namespace DataAccessLayer
 
                 return employees;
             }
-            catch (Exception)
+            catch
             {
-                throw new Exception("Sorry Server Is Not Found. Please Try Later");
+                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
             }
         }
 
@@ -49,20 +49,30 @@ namespace DataAccessLayer
 
         public Employee Edit(Employee emp)
         {
+            bool isExistEmail = false;
+            bool isExistPhone = false;
+
             try
             {
-                bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
-                bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
+                isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
+                isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
+            }
+            catch
+            {
+                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
+            }
 
-                if (isExistEmail && isExistPhone)
-                    throw new ExistException("This Email Addres And Phone Number Already Exists");
+            if (isExistEmail && isExistPhone)
+                throw new ExistException("This Email Addres And Phone Number Already Exists");
 
-                if (isExistEmail)
-                    throw new ExistException("This Email Address Already Exists ");
+            if (isExistEmail)
+                throw new ExistException("This Email Address Already Exists");
 
-                if (isExistPhone)
-                    throw new ExistException("This Phone Number Already Exists");
+            if (isExistPhone)
+                throw new ExistException("This Phone Number Already Exists");
 
+            try
+            {
                 if (emp.Id != null)
                 {
                     data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
@@ -78,9 +88,9 @@ namespace DataAccessLayer
                 DbRawSqlQuery<Employee> employee = data.Database.SqlQuery<Employee>($"Select * From Employees WHERE Email = '{emp.Email}'");
                 return employee.FirstOrDefault();
             }
-            catch (DatabaseException)
+            catch
             {
-                throw new DatabaseException("Sorry Database Not Found. Please Try Later");
+                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
             }
         }
 
@@ -94,12 +104,15 @@ namespace DataAccessLayer
             }
             catch
             {
-                throw new DatabaseException("Sorry Database Not Found. Please Try Later");
+                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
             }
         }
 
         public Employee GetEmployeeById(int? id)
         {
+            if (id < 0)
+                throw new ArgumentOutOfRangeException("Wrong Id");
+
             try
             {
                 DbRawSqlQuery<Employee> employee = data.Database.SqlQuery<Employee>($"SELECT * FROM Employees WHERE Id = '{id}'");
@@ -107,7 +120,7 @@ namespace DataAccessLayer
             }
             catch
             {
-                throw new DatabaseException("Sorry Database Not Found. Please Try Later");
+                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
             }
         }
     }

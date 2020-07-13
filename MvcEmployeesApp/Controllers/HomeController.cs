@@ -25,7 +25,7 @@ namespace MvcEmployeesApp.Controllers
                 PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
                 return View(paginationModel);
             }
-            catch (Exception ex)
+            catch (DatabaseException ex)
             {
                 ViewBag.ErrMessage = ex.Message;
             }
@@ -99,39 +99,46 @@ namespace MvcEmployeesApp.Controllers
         [HttpGet]
         public ActionResult Remove(int? id)
         {
-            Employee employee = dataAccess.GetEmployeeById(id);
-
-            if (employee == null)
+            try
             {
-                ViewBag.ErrMessage = "Employee Was Not Found";
+                Employee employee = dataAccess.GetEmployeeById(id);
+
+                ViewBag.Quetion = "Do you want to remove an employee from the database ?";
+                ViewBag.Btn = "Go Back";
+
+                return View(employee);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
                 ViewBag.Btn = "Ok";
                 return View();
             }
-
-            if (employee != null)
-                ViewBag.WasFoundMessage = "Employee Was Found";
-
-            ViewBag.Quetion = "Do you want to remove an employee from the database ?";
-            ViewBag.Btn = "Go Back";
-
-            return View(employee);
         }
 
         [HttpPost]
         public ActionResult Remove(Employee emp)
         {
-            bool isRemovedEmployee = dataAccess.Remove(emp);
-
-            if (isRemovedEmployee)
+            try
             {
-                ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
-                ViewBag.Btn = "Ok";
+                bool isRemovedEmployee = dataAccess.Remove(emp);
+
+                if (isRemovedEmployee)
+                {
+                    ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
+                    ViewBag.Btn = "Ok";
+                }
+
+                if (!isRemovedEmployee)
+                {
+                    ViewBag.ErrMessage = "Employee Data Was Not Deleted";
+                    ViewBag.Btn = "Go Back";
+                }
             }
-
-            if (!isRemovedEmployee)
+            catch (DatabaseException ex)
             {
-                ViewBag.ErrMessage = "Employee Data Was Not Deleted";
-                ViewBag.Btn = "Go Back";
+                ViewBag.ErrMessage = ex.Message;
+                ViewBag.Btn = "Ok";
             }
 
             return View();
@@ -145,6 +152,10 @@ namespace MvcEmployeesApp.Controllers
                 return View(employee);
             }
             catch (DatabaseException ex)
+            {
+                ViewBag.ErrMessage = ex.Message;
+            }
+            catch (ArgumentOutOfRangeException ex)
             {
                 ViewBag.ErrMessage = ex.Message;
             }

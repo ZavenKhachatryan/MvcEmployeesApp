@@ -22,6 +22,7 @@ function validate() {
     var validPhone = /^(0[1-9]{2})([0-9]{6})$/;
     var validEmail = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
     var validName = /^[a-zA-z]+$/;
+    var validAge = /^[1-9]?[0-9]{1}$|^100$/;
 
     let isError = true;
     $("input[data-validate]").each(function () {
@@ -50,7 +51,7 @@ function validate() {
                 }
             }
             if (item == "age") {
-                if (isNaN(!$this.val()) || !$this.val().val < 1 || !$this.val().val > 101) {
+                if (!$this.val().match(validAge)) {
                     $this.next(".validateMessage").html($this.attr("data-validate-name") + " Is Invalid")
                     isError = false;
                 }
