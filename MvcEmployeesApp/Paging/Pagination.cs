@@ -3,6 +3,7 @@ using MyModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 using System.Web.Mvc;
 
 namespace MvcEmployeesApp
@@ -16,6 +17,7 @@ namespace MvcEmployeesApp
             PaginationModel pm = new PaginationModel { PageInfo = pageInfo, Employees = employeesPerPages };
             return pm;
         }
+
         public static MvcHtmlString PageLinks(PageInfo pageInfo)
         {
             StringBuilder result = new StringBuilder();

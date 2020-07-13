@@ -5,6 +5,7 @@ using MyModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using System.Data.SqlClient;
 
 namespace MvcEmployeesApp.Areas.Areas.Controllers
 {
@@ -60,15 +61,7 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
                 Employee editedEmployee = dataAccess.Edit(emp);
 
                 if (emp.Contains(editedEmployee))
-                {
-                    //if (emp.Id != null)
-                    //    ViewBag.CompleteMessage = "Employee Data Is Successfully Edited";
-
-                    //if (emp.Id == null)
-                    //    ViewBag.CompleteMessage = "Employee Data Is Successfully Added";
-
                     return Ok(editedEmployee);
-                }
 
                 return BadRequest("Employee Data Wasn't Edited");
             }
@@ -81,6 +74,26 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        public IHttpActionResult Remove(int? id)
+        {
+            Employee employee = dataAccess.GetEmployeeById(id);
+
+            if (employee == null)
+                return BadRequest("Employee Was Not Found");
+
+            return Ok(employee);
+        }
+
+        [HttpPost]
+        public IHttpActionResult Remove(Employee emp)
+        {
+            bool isRemovedEmployee = dataAccess.Remove(emp);
+
+            return Ok(isRemovedEmployee);
+        }
+
         public IHttpActionResult GetDetails(int? id)
         {
             try
@@ -90,7 +103,7 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
             }
             catch (DatabaseException ex)
             {
-               return InternalServerError(ex);
+                return InternalServerError(ex);
             }
         }
 

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Exceptions\Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayerTests", "DataAccessLayerTests\DataAccessLayerTests.csproj", "{0D6600CB-1216-4A8E-9B28-B9BBC7BF062B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcEmployeesAppTests2", "MvcEmployeesAppTests2\MvcEmployeesAppTests2.csproj", "{E722D983-8420-4BF8-9CC9-84191FCBE2DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0D6600CB-1216-4A8E-9B28-B9BBC7BF062B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D6600CB-1216-4A8E-9B28-B9BBC7BF062B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6600CB-1216-4A8E-9B28-B9BBC7BF062B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E722D983-8420-4BF8-9CC9-84191FCBE2DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E722D983-8420-4BF8-9CC9-84191FCBE2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E722D983-8420-4BF8-9CC9-84191FCBE2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E722D983-8420-4BF8-9CC9-84191FCBE2DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

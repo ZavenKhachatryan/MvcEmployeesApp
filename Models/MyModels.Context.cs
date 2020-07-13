@@ -13,13 +13,13 @@
 
         public DataContext(string connection):base(connection)
         {
-        }        
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {         
-            throw new UnintentionalCodeFirstException();
         }
-    
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //throw new UnintentionalCodeFirstException();
+        //}
+
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<User> Users { get; set; }
     
