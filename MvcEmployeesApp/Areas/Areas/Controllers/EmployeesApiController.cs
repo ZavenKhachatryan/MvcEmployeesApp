@@ -4,7 +4,6 @@ using MvcEmployeesApp.Models;
 using MyModels;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Web.Http;
 
 namespace MvcEmployeesApp.Areas.Areas.Controllers

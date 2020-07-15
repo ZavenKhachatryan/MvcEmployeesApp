@@ -21,10 +21,10 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         public EmployeesApiControllerTests()
         {
             dataAccess = new DataAccess(new DataContext());
-            fakeDataAccess = new DataAccess(new DataContext(ConfigurationManager.ConnectionStrings["FakeData"].ConnectionString));
+            data = new DataContext();
             controller = new EmployeesApiController(dataAccess);
             fakeController = new EmployeesApiController(fakeDataAccess);
-            data = new DataContext();
+            fakeDataAccess = new DataAccess(new DataContext(ConfigurationManager.ConnectionStrings["FakeData"].ConnectionString));
         }
 
         [TestMethod()]
@@ -103,7 +103,7 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             BadRequestErrorMessageResult getById =
                 controller.GetDetails(-1) as BadRequestErrorMessageResult;
-
+            
             string getMsg = getById.Message;
             string outRangeMsg = "Wrong Id";
 
