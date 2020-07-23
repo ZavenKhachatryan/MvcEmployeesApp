@@ -37,7 +37,7 @@
         <p class="completeMessage">@ViewBag.CompleteMessage</p>
     }
 
-    <input type="@(ViewBag.Btn == "Go Back" ? "button" : "hidden")" value="Submit" class="btn btn-primary " id="saveEmploye"/>
+    <input type="@(ViewBag.Btn == "Go Back" ? "button" : "hidden")" value="Submit" class="btn btn-primary " id="saveEmploye" />
     <a href="/Home/Index" class="btn  @(ViewBag.Btn == "Go Back" ? "btn-danger" : "btn-success")">@ViewBag.Btn</a>
 </form>
 @section scripts{

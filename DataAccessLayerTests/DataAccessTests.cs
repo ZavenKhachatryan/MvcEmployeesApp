@@ -9,6 +9,10 @@ namespace DataAccessLayer.Tests
     public class DataAccessTests
     {
         private readonly IDataAccess dataAccess;
+        public DataAccessTests()
+        {
+            dataAccess = new DataAccess(new DataContext());
+        }
 
         [TestMethod()]
         public void SelectFilteredEmployees_IsNOtNull()
@@ -61,7 +65,7 @@ namespace DataAccessLayer.Tests
         }
 
         [TestMethod()]
-        public void EditTest_ChangeOk()
+         public void EditTest_ChangeOk()
         {
             using (DataContext data = new DataContext())
             {

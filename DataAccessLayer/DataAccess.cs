@@ -9,11 +9,11 @@ namespace DataAccessLayer
 {
     public class DataAccess : IDataAccess
     {
-        private readonly DataContext data;
+        private readonly DataContext _data;
 
         public DataAccess(DataContext data)
         {
-            this.data = data;
+            _data = data;
         }
 
         public DbRawSqlQuery<Employee> SelectFilteredEmployees(SearchModel model)
@@ -22,7 +22,7 @@ namespace DataAccessLayer
             {
                 string query = GetQueryString(model);
 
-                DbRawSqlQuery<Employee> employees = data.Database.SqlQuery<Employee>(query);
+                DbRawSqlQuery<Employee> employees = _data.Database.SqlQuery<Employee>(query);
 
                 return employees;
             }
@@ -52,8 +52,8 @@ namespace DataAccessLayer
         {
             try
             {
-                bool isExistEmail = data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
-                bool isExistPhone = data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
+                bool isExistEmail = _data.Employees.Any(e => e.Email == emp.Email && e.Id != emp.Id);
+                bool isExistPhone = _data.Employees.Any(e => e.Phone == emp.Phone && e.Id != emp.Id);
 
                 if (isExistEmail && isExistPhone)
                     throw new ExistException("This Email Addres And Phone Number Already Exists");
@@ -66,17 +66,17 @@ namespace DataAccessLayer
 
                 if (emp.Id != null)
                 {
-                    data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
-                    data.SaveChanges();
+                    _data.EditEmp(emp.Id, emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
+                    _data.SaveChanges();
                 }
 
                 if (emp.Id == null)
                 {
-                    data.AddEmp(emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
-                    data.SaveChanges();
+                    _data.AddEmp(emp.FirstName, emp.LastName, emp.Age, emp.Salary, emp.Email, emp.Phone);
+                    _data.SaveChanges();
                 }
 
-                return data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
+                return _data.Employees.FirstOrDefault(e => e.Email == emp.Email || e.Phone == emp.Phone);
             }
             catch (DatabaseException)
             {
@@ -88,9 +88,9 @@ namespace DataAccessLayer
         {
             try
             {
-                data.RemoveEmp(emp.Id);
-                data.SaveChanges();
-                return !data.Employees.Any(e => e.Email == emp.Email || e.Phone == emp.Phone);
+                _data.RemoveEmp(emp.Id);
+                _data.SaveChanges();
+                return !_data.Employees.Any(e => e.Email == emp.Email || e.Phone == emp.Phone);
             }
             catch
             {
@@ -103,7 +103,7 @@ namespace DataAccessLayer
             Employee employee = new Employee();
             try
             {
-                employee = data.Employees.FirstOrDefault(x => x.Id == id);
+                employee = _data.Employees.FirstOrDefault(x => x.Id == id);
                 return employee;
             }
             catch
@@ -114,7 +114,7 @@ namespace DataAccessLayer
 
         public void Dispose()
         {
-            data.Dispose();
+            _data.Dispose();
         }
     }
 }
