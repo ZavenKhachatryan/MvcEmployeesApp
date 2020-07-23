@@ -64,31 +64,31 @@ namespace DataAccessLayer.Tests
             }
         }
 
-        [TestMethod()]
-         public void EditTest_ChangeOk()
-        {
-            using (DataContext data = new DataContext())
-            {
-                Employee addedEmp = GetLastAddedEmployee(data);
-                addedEmp.Age = 24;
+        //[TestMethod()]
+        // public void EditTest_ChangeOk()
+        //{
+        //    using (DataContext data = new DataContext())
+        //    {
+        //        Employee addedEmp = GetLastAddedEmployee(data);
+        //        addedEmp.Age = 24;
 
-                Employee changedEmp = new Employee()
-                {
-                    FirstName = "test",
-                    LastName = "testyan",
-                    Age = 24,
-                    Salary = 1,
-                    Email = "test@mail.ru",
-                    Phone = "018111111"
-                };
+        //        Employee changedEmp = new Employee()
+        //        {
+        //            FirstName = "test",
+        //            LastName = "testyan",
+        //            Age = 24,
+        //            Salary = 1,
+        //            Email = "test@mail.ru",
+        //            Phone = "018111111"
+        //        };
 
-                Employee editedEmp = dataAccess.Edit(addedEmp);
-                bool isContains = editedEmp.Contains(changedEmp);
-                dataAccess.Remove(addedEmp);
+        //        Employee editedEmp = dataAccess.Edit(addedEmp);
+        //        bool isContains = editedEmp.Contains(changedEmp);
+        //        dataAccess.Remove(addedEmp);
 
-                Assert.IsTrue(isContains);
-            }
-        }
+        //        Assert.IsTrue(isContains);
+        //    }
+        //}
         [TestMethod()]
         public void EditTest_AddOk()
         {
