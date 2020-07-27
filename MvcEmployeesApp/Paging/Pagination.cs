@@ -13,17 +13,10 @@ namespace MvcEmployeesApp
     {
         public static PaginationModel GetPaginationModel(this IEnumerable<Employee> emps, int pageNumber)
         {
-            try
-            {
-                IEnumerable<Employee> employeesPerPages = emps.Skip((pageNumber - 1) * 5).Take(5);
-                PageInfo pageInfo = new PageInfo { PageNumber = pageNumber, TotalItems = emps.Count() };
-                PaginationModel pm = new PaginationModel { PageInfo = pageInfo, Employees = employeesPerPages };
-                return pm;
-            }
-            catch
-            {
-                throw new DatabaseException("Sorry Server Was Not Found. Please Try Later");
-            }
+            IEnumerable<Employee> employeesPerPages = emps.Skip((pageNumber - 1) * 5).Take(5);
+            PageInfo pageInfo = new PageInfo { PageNumber = pageNumber, TotalItems = emps.Count() };
+            PaginationModel pm = new PaginationModel { PageInfo = pageInfo, Employees = employeesPerPages };
+            return pm;
         }
 
         public static MvcHtmlString PageLinks(PageInfo pageInfo)

@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseException.cs" />
     <Compile Include="ExistException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

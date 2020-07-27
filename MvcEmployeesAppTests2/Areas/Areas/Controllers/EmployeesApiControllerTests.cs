@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcEmployeesApp.Models;
 using MyModels;
-using System.Configuration;
 using System.Linq;
 using System.Web.Http.Results;
 
@@ -12,29 +11,16 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
     public class EmployeesApiControllerTests
     {
         private readonly EmployeesApiController controller;
-        private readonly EmployeesApiController fakeController;
         private readonly IDataAccess dataAccess;
-        private readonly IDataAccess fakeDataAccess;
         private readonly DataContext data;
-        private string dbErrMsg = "Sorry Server Was Not Found. Please Try Later";
 
         public EmployeesApiControllerTests()
         {
             dataAccess = new DataAccess(new DataContext());
             data = new DataContext();
             controller = new EmployeesApiController(dataAccess);
-            fakeController = new EmployeesApiController(fakeDataAccess);
-            fakeDataAccess = new DataAccess(new DataContext(ConfigurationManager.ConnectionStrings["FakeData"].ConnectionString));
         }
 
-        [TestMethod()]
-        public void GetEmployeesTest_DatabaseException()
-        {
-            BadRequestErrorMessageResult getEmp =
-                fakeController.GetEmployees(new SearchModel()) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(getEmp.Message == dbErrMsg);
-        }
 
         [TestMethod()]
         public void A_GetEmployeesTest_Ok()
@@ -43,15 +29,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
                 controller.GetEmployees(new SearchModel()) as OkNegotiatedContentResult<PaginationModel>;
 
             Assert.IsNotNull(result);
-        }
-
-        [TestMethod()]
-        public void EditTest_Get_DatabaseException()
-        {
-            BadRequestErrorMessageResult getEmp =
-                fakeController.Edit(1) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(dbErrMsg == getEmp.Message);
         }
 
         [TestMethod()]
@@ -76,16 +53,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
             Assert.IsTrue(new Employee().Contains(getedEmployee.Content));
         }
 
-        [TestMethod()]
-        public void GetDetailsTest_DatabaseException()
-        {
-            Employee employee = GetLastEmployee();
-
-            BadRequestErrorMessageResult getEmp =
-                fakeController.GetDetails(employee.Id) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(dbErrMsg == getEmp.Message);
-        }
 
         [TestMethod()]
         public void D1_GetDetailsTest_Ok()
@@ -108,17 +75,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
             string outRangeMsg = "Wrong Id";
 
             Assert.IsTrue(getMsg.Contains(outRangeMsg));
-        }
-
-        [TestMethod()]
-        public void EditTest_Post_DatabaseException()
-        {
-            Employee employee = GetLastEmployee();
-
-            BadRequestErrorMessageResult getEmp =
-                fakeController.Edit(employee) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(dbErrMsg == getEmp.Message);
         }
 
         [TestMethod()]
@@ -158,16 +114,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
             Assert.IsTrue(emp.Contains(editedEmployee.Content));
         }
 
-        [TestMethod()]
-        public void RemoveTest_Get_DatabaseException()
-        {
-            Employee employee = GetLastEmployee();
-
-            BadRequestErrorMessageResult getEmp =
-                fakeController.Remove(employee.Id) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(dbErrMsg == getEmp.Message);
-        }
 
         [TestMethod()]
         public void H_RemoveTest_GetEmployee_Ok()
@@ -190,17 +136,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
             string outRangeMsg = "Wrong Id";
 
             Assert.IsTrue(outMsg.Contains(outRangeMsg));
-        }
-
-        [TestMethod()]
-        public void RemoveTest_Post_DatabaseException()
-        {
-            Employee employee = GetLastEmployee();
-
-            BadRequestErrorMessageResult getEmp =
-                fakeController.Remove(employee) as BadRequestErrorMessageResult;
-
-            Assert.IsTrue(dbErrMsg == getEmp.Message);
         }
 
         [TestMethod()]

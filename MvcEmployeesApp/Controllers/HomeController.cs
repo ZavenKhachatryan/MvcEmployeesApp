@@ -18,37 +18,22 @@ namespace MvcEmployeesApp.Controllers
         }
         public ActionResult Index(SearchModel model)
         {
-            try
-            {
-                ViewBag.mod = model;
-                IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
-                PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
-                return View(paginationModel);
-            }
-            catch (DatabaseException ex)
-            {
-                ViewBag.ErrMessage = ex.Message;
-            }
+            ViewBag.mod = model;
+            IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
+            PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
+            return View(paginationModel);
 
-            return View();
         }
 
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             ViewBag.Btn = "Go Back";
-            try
+
+            if (id != null)
             {
-                if (id != null)
-                {
-                    Employee employee = dataAccess.GetEmployeeById(id);
-                    return View(employee);
-                }
-            }
-            catch (DatabaseException ex)
-            {
-                ViewBag.dbErrMessage = ex.Message;
-                ViewBag.Btn = "Ok";
+                Employee employee = dataAccess.GetEmployeeById(id);
+                return View(employee);
             }
 
             return View(new Employee());
@@ -79,12 +64,6 @@ namespace MvcEmployeesApp.Controllers
                     ViewBag.Btn = "Ok";
                     return View(editedEmployee);
                 }
-            }
-            catch (DatabaseException ex)
-            {
-                ViewBag.dbErrMessage = ex.Message;
-                ViewBag.Btn = "Ok";
-                return View();
             }
             catch (ExistException ex)
             {
@@ -119,26 +98,18 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Remove(Employee emp)
         {
-            try
-            {
-                bool isRemovedEmployee = dataAccess.Remove(emp);
+            bool isRemovedEmployee = dataAccess.Remove(emp);
 
-                if (isRemovedEmployee)
-                {
-                    ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
-                    ViewBag.Btn = "Ok";
-                }
-
-                if (!isRemovedEmployee)
-                {
-                    ViewBag.ErrMessage = "Employee Data Was Not Deleted";
-                    ViewBag.Btn = "Go Back";
-                }
-            }
-            catch (DatabaseException ex)
+            if (isRemovedEmployee)
             {
-                ViewBag.ErrMessage = ex.Message;
+                ViewBag.CompleteMessage = "Employee Data Is Successfully Deleted";
                 ViewBag.Btn = "Ok";
+            }
+
+            if (!isRemovedEmployee)
+            {
+                ViewBag.ErrMessage = "Employee Data Was Not Deleted";
+                ViewBag.Btn = "Go Back";
             }
 
             return View();
@@ -150,10 +121,6 @@ namespace MvcEmployeesApp.Controllers
             {
                 Employee employee = dataAccess.GetEmployeeById(id);
                 return View(employee);
-            }
-            catch (DatabaseException ex)
-            {
-                ViewBag.ErrMessage = ex.Message;
             }
             catch (ArgumentOutOfRangeException ex)
             {

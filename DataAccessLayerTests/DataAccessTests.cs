@@ -10,25 +10,23 @@ namespace DataAccessLayer.Tests
     [TestClass()]
     public class DataAccessTests : IDisposable
     {
-        private readonly IDataAccess dataAccess;
-        private readonly IDataAccess fakeDataAccess;
         private readonly DataContext data;
+        private readonly IDataAccess dataAccess;
 
         public DataAccessTests()
         {
-            data = new DataContext();
-            dataAccess = new DataAccess(new DataContext());
-            fakeDataAccess = new DataAccess(new DataContext(ConfigurationManager.ConnectionStrings["FakeData"].ConnectionString));
+            data = new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString);
+            dataAccess = new DataAccess(data);
         }
 
         [TestMethod()]
-        public void SelectFilteredEmployees_IsNOtNull()
+        public void SelectFilteredEmployees_IsNotNull_Ok()
         {
             Assert.IsNotNull(dataAccess.SelectFilteredEmployees(new SearchModel()));
         }
 
         [TestMethod()]
-        public void SelectFilteredEmployees_IsGetAllEmployees()
+        public void SelectFilteredEmployees_IsGetAllEmployees_Ok()
         {
             string sEmpsStr = dataAccess.SelectFilteredEmployees(new SearchModel()).ToString();
             string dEmpsStr = "select * from Employees";
@@ -37,7 +35,7 @@ namespace DataAccessLayer.Tests
         }
 
         [TestMethod()]
-        public void SelectFilteredEmployees_IsGetTrueEmployees_WithSearchValue()
+        public void SelectFilteredEmployees_IsGetTrueEmployees_WithSearchValue_Ok()
         {
             SearchModel model = new SearchModel();
             model.SearchBy = "FirstName";
@@ -50,7 +48,7 @@ namespace DataAccessLayer.Tests
         }
 
         [TestMethod()]
-        public void SelectFilteredEmployees_IsGetTrueEmployees_WithOrderBy()
+        public void SelectFilteredEmployees_IsGetTrueEmployees_WithOrderBy_Ok()
         {
             SearchModel model = new SearchModel();
             model.OrderBy = "FirstName";
@@ -63,23 +61,18 @@ namespace DataAccessLayer.Tests
         }
 
         [TestMethod()]
-        public void EditTest_DatabaseException()
-        {
-            Assert.ThrowsException<DatabaseException>(() => fakeDataAccess.Edit(new Employee()));
-        }
-
-        [TestMethod()]
-        public void EditTest_AddOk()
+        public void EditTest_A_Add_Ok()
         {
             Employee emp = CreateEmployee();
 
             Employee addedEmp = dataAccess.Edit(emp);
 
+            Assert.IsNotNull(addedEmp);
             Assert.IsTrue(emp.Contains(addedEmp));
         }
 
         [TestMethod()]
-        public void EditTest_Add_ExistExceptionOk()
+        public void EditTest_B_Add_NotOk()
         {
             Employee emp = CreateEmployee();
 
@@ -97,19 +90,13 @@ namespace DataAccessLayer.Tests
         }
 
         [TestMethod()]
-        public void GetEmployeeByIdTest_DatabaseException()
-        {
-            Assert.ThrowsException<DatabaseException>(() => fakeDataAccess.GetEmployeeById(new Employee().Id));
-        }
-
-        [TestMethod()]
-        public void GetEmployeeByIdTest_IdOutOfRangeException_Ok()
+        public void GetEmployeeByIdTest_NotOk()
         {
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => dataAccess.GetEmployeeById(-1));
         }
 
         [TestMethod()]
-        public void EditTest_ChangeOk()
+        public void EditTest_Change_Ok()
         {
             Employee lastEmp = GetLastEmployee();
             lastEmp.Age = 56;
@@ -117,25 +104,49 @@ namespace DataAccessLayer.Tests
             Employee editedEmp = dataAccess.Edit(lastEmp);
             bool isContains = editedEmp.Contains(lastEmp);
 
+            Assert.IsNotNull(editedEmp);
             Assert.IsTrue(isContains);
         }
 
         [TestMethod()]
-        public void RemoveTest_DatabaseException()
+        public void EditTest_Change_NotOk()
         {
-            Assert.ThrowsException<DatabaseException>(() => fakeDataAccess.Remove(new Employee()));
+            Employee firstEmp = GetFirstEmployee();
+            firstEmp.Email = CreateEmployee().Email;
+            firstEmp.Phone = CreateEmployee().Phone;
+
+            Assert.ThrowsException<ExistException>(() => dataAccess.Edit(firstEmp));
         }
+
+
 
         [TestMethod()]
         public void RemoveTest_Ok()
         {
             Employee lastEmp = GetLastEmployee();
-            Assert.IsTrue(dataAccess.Remove(lastEmp));
+            bool result = dataAccess.Remove(lastEmp);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod()]
+        public void RemoveTest_NotOk()
+        {
+            Employee emp = new Employee();
+
+            emp.Id = -1;
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => dataAccess.Remove(emp));
+            Assert.ThrowsException<NullReferenceException>(() => dataAccess.Remove(null));
         }
 
         private Employee GetLastEmployee()
         {
             return data.Employees.OrderByDescending(x => x.Id).FirstOrDefault();
+        }
+        private Employee GetFirstEmployee()
+        {
+            return data.Employees.OrderBy(x => x.Id).FirstOrDefault();
         }
         private Employee CreateEmployee()
         {

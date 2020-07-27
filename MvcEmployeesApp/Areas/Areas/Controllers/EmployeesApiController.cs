@@ -18,35 +18,21 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
 
         public IHttpActionResult GetEmployees([FromUri] SearchModel model)
         {
-            try
-            {
-                IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
-                PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
-                return Ok(paginationModel);
-            }
-            catch (DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
+            PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
+            return Ok(paginationModel);
         }
 
         [HttpGet]
         public IHttpActionResult Edit(int? id)
         {
-            try
+            if (id != null)
             {
-                if (id != null)
-                {
-                    Employee employee = dataAccess.GetEmployeeById(id);
-                    return Ok(employee);
-                }
+                Employee employee = dataAccess.GetEmployeeById(id);
+                return Ok(employee);
+            }
 
-                return Ok(new Employee());
-            }
-            catch (DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(new Employee());
         }
 
         [HttpPost]
@@ -59,10 +45,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
 
                 Employee editedEmployee = dataAccess.Edit(emp);
                 return Ok(editedEmployee);
-            }
-            catch (DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (ExistException ex)
             {
@@ -82,24 +64,13 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            catch(DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpPost]
         public IHttpActionResult Remove(Employee emp)
         {
-            try
-            {
-                bool isRemovedEmployee = dataAccess.Remove(emp);
-                return Ok(isRemovedEmployee);
-            }
-            catch (DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            bool isRemovedEmployee = dataAccess.Remove(emp);
+            return Ok(isRemovedEmployee);
         }
 
         public IHttpActionResult GetDetails(int? id)
@@ -108,10 +79,6 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
             {
                 Employee employee = dataAccess.GetEmployeeById(id);
                 return Ok(employee);
-            }
-            catch (DatabaseException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (ArgumentOutOfRangeException ex)
             {
