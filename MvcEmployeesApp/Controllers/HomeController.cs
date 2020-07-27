@@ -22,7 +22,6 @@ namespace MvcEmployeesApp.Controllers
             IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
             PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
             return View(paginationModel);
-
         }
 
         [HttpGet]
