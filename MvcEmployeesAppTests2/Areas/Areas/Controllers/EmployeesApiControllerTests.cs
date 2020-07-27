@@ -37,10 +37,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             Employee employee = GetLastEmployee();
 
-            OkNegotiatedContentResult<Employee> getedEmployee =
+            OkNegotiatedContentResult<Employee> result =
                 controller.Edit(employee.Id) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(employee.Contains(getedEmployee.Content));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(employee.Contains(result.Content));
         }
 
         [TestMethod()]
@@ -48,10 +49,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             int? id = null;
 
-            OkNegotiatedContentResult<Employee> getedEmployee =
+            OkNegotiatedContentResult<Employee> result =
                 controller.Edit(id) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(new Employee().Contains(getedEmployee.Content));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(new Employee().Contains(result.Content));
         }
 
         [TestMethod()]
@@ -65,10 +67,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             Employee emp = GetLastEmployee();
 
-            OkNegotiatedContentResult<Employee> getById =
+            OkNegotiatedContentResult<Employee> result =
                 controller.GetDetails(emp.Id) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(emp.Contains(getById.Content));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(emp.Contains(result.Content));
         }
 
         [TestMethod()]
@@ -83,10 +86,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             Employee emp = CreateEmployee();
 
-            OkNegotiatedContentResult<Employee> editedEmployee =
+            OkNegotiatedContentResult<Employee> result =
                 controller.Edit(emp) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(emp.Contains(editedEmployee.Content));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(emp.Contains(result.Content));
         }
 
         [TestMethod()]
@@ -106,13 +110,14 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         [TestMethod]
         public void G_EditTest_Post_Change_Ok()
         {
-            Employee emp = GetLastEmployee();
-            emp.Age = 25;
+            Employee employee = GetLastEmployee();
+            employee.Age = 25;
 
-            OkNegotiatedContentResult<Employee> editedEmployee =
-                controller.Edit(emp) as OkNegotiatedContentResult<Employee>;
+            OkNegotiatedContentResult<Employee> result =
+                controller.Edit(employee) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(emp.Contains(editedEmployee.Content));
+            Assert.IsNotNull(result);
+            Assert.IsTrue(employee.Contains(result.Content));
         }
 
 
@@ -121,10 +126,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             Employee employee = GetLastEmployee();
 
-            OkNegotiatedContentResult<Employee> getREmp =
+            OkNegotiatedContentResult<Employee> result =
                 controller.Remove(employee.Id) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(employee.Id == getREmp.Content.Id);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(employee.Id == result.Content.Id);
         }
 
         [TestMethod()]
@@ -139,10 +145,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         {
             Employee emp = GetLastEmployee();
 
-            OkNegotiatedContentResult<bool> isRemoved =
+            OkNegotiatedContentResult<bool> result =
                 controller.Remove(emp) as OkNegotiatedContentResult<bool>;
 
-            Assert.IsTrue(isRemoved.Content == true);
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Content == true);
         }
 
         private Employee GetLastEmployee()
