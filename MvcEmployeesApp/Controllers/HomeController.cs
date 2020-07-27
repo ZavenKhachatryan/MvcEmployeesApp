@@ -1,5 +1,6 @@
 ﻿using DataAccessLayer;
 using Exceptions;
+using MvcEmployeesApp.Filters;
 using MvcEmployeesApp.Models;
 using MyModels;
 using System;
@@ -9,20 +10,21 @@ using System.Web.Mvc;
 
 namespace MvcEmployeesApp.Controllers
 {
+    [Authentication]
     public class HomeController : Controller
     {
-        private readonly IDataAccess dataAccess;
-        public HomeController(IDataAccess dataAccess)
+        private readonly IEmployeeDataAccess _employeeDataAccess;
+        public HomeController(IEmployeeDataAccess dataAccess)
         {
-            this.dataAccess = dataAccess;
+            this._employeeDataAccess = dataAccess;
         }
+
         public ActionResult Index(SearchModel model)
         {
             ViewBag.mod = model;
-            IEnumerable<Employee> emps = dataAccess.SelectFilteredEmployees(model);
+            IEnumerable<Employee> emps = _employeeDataAccess.SelectFilteredEmployees(model);
             PaginationModel paginationModel = emps.GetPaginationModel(model.PageNumber);
             return View(paginationModel);
-
         }
 
         [HttpGet]
@@ -32,7 +34,7 @@ namespace MvcEmployeesApp.Controllers
 
             if (id != null)
             {
-                Employee employee = dataAccess.GetEmployeeById(id);
+                Employee employee = _employeeDataAccess.GetEmployeeById(id);
                 return View(employee);
             }
 
@@ -51,7 +53,7 @@ namespace MvcEmployeesApp.Controllers
                     return View(emp);
                 }
 
-                Employee editedEmployee = dataAccess.Edit(emp);
+                Employee editedEmployee = _employeeDataAccess.Edit(emp);
 
                 if (emp.Contains(editedEmployee))
                 {
@@ -80,7 +82,7 @@ namespace MvcEmployeesApp.Controllers
         {
             try
             {
-                Employee employee = dataAccess.GetEmployeeById(id);
+                Employee employee = _employeeDataAccess.GetEmployeeById(id);
 
                 ViewBag.Quetion = "Do you want to remove an employee from the database ?";
                 ViewBag.Btn = "Go Back";
@@ -98,7 +100,7 @@ namespace MvcEmployeesApp.Controllers
         [HttpPost]
         public ActionResult Remove(Employee emp)
         {
-            bool isRemovedEmployee = dataAccess.Remove(emp);
+            bool isRemovedEmployee = _employeeDataAccess.Remove(emp);
 
             if (isRemovedEmployee)
             {
@@ -119,7 +121,7 @@ namespace MvcEmployeesApp.Controllers
         {
             try
             {
-                Employee employee = dataAccess.GetEmployeeById(id);
+                Employee employee = _employeeDataAccess.GetEmployeeById(id);
                 return View(employee);
             }
             catch (ArgumentOutOfRangeException ex)

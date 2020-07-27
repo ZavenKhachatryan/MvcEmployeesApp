@@ -25,7 +25,7 @@ namespace MvcEmployeesApp.App_Start
             container.RegisterControllers(typeof(MvcApplication).Assembly);
             container.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
-            container.RegisterType<DataAccess>().As<IDataAccess>()
+            container.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>()
                      .WithParameter("data", new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString));
 
             return container.Build();

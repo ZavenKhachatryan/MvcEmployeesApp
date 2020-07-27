@@ -10,8 +10,8 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
 {
     public class EmployeesApiController : ApiController
     {
-        private IDataAccess dataAccess;
-        public EmployeesApiController(IDataAccess dataAccess)
+        private IEmployeeDataAccess dataAccess;
+        public EmployeesApiController(IEmployeeDataAccess dataAccess)
         {
             this.dataAccess = dataAccess;
         }

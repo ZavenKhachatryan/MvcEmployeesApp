@@ -12,12 +12,12 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
     public class EmployeesApiControllerTests
     {
         private readonly EmployeesApiController controller;
-        private readonly IDataAccess dataAccess;
+        private readonly IEmployeeDataAccess dataAccess;
         private readonly DataContext data;
 
         public EmployeesApiControllerTests()
         {
-            dataAccess = new DataAccess(new DataContext());
+            dataAccess = new EmployeeDataAccess(new DataContext());
             data = new DataContext();
             controller = new EmployeesApiController(dataAccess);
         }

@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class DataAccess : IDataAccess
+    public class EmployeeDataAccess : IEmployeeDataAccess
     {
         private readonly DataContext data;
 
-        public DataAccess(DataContext data)
+        public EmployeeDataAccess(DataContext data)
         {
             this.data = data;
         }

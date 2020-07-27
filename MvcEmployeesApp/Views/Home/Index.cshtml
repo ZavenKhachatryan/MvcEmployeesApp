@@ -39,22 +39,22 @@
                     <th>
                         <label>First Name</label>
                         <div class="btn-group">
-                            <button name="orderBy" value="FirstName" class="btn" onclick="Sort('asc')"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="FirstName" class="btn" onclick="Sort('desc')"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="FirstName" class="btn" id="asc"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="FirstName" class="btn" id="desc"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>
                         Last Name
                         <div class="btn-group">
-                            <button name="orderBy" value="LastName" class="btn" onclick="Sort('asc')"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="LastName" class="btn" onclick="Sort('desc')"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="LastName" class="btn" id="asc"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="LastName" class="btn" id="desc"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>
                         Age
                         <div class="btn-group">
-                            <button name="orderBy" value="Age" class="btn" onclick="Sort('asc')"><i class="fa fa-chevron-up"></i></button>
-                            <button name="orderBy" value="Age" class="btn" onclick="Sort('desc')"><i class="fa fa-chevron-down"></i></button>
+                            <button name="orderBy" value="Age" class="btn" id="asc"><i class="fa fa-chevron-up"></i></button>
+                            <button name="orderBy" value="Age" class="btn" id="desc"><i class="fa fa-chevron-down"></i></button>
                         </div>
                     </th>
                     <th>Control</th>
@@ -68,7 +68,6 @@
                         <td>@emp.Age</td>
                         <td>
                             <a href="/Home/Edit/@emp.Id" class="btn btn-danger">Edit</a>
-                            @*<div class="btn btn-danger openModalDelete">Open Modal</div>*@
                             <a href="/Home/Remove/@emp.Id" data-target="" class="btn btn-danger">Remove</a>
                         </td>
                     </tr>
@@ -83,26 +82,3 @@
         </div>
     </form>
 }
-
-@*<div id="id01" class="modal">
-    <span onclick="document.getelementbyid('id01').style.display='none'" class="close" title="close modal">×</span>
-    <form class="modal-content" action="/action_page.php">
-        <div class="container">
-            <h1>Delete Account</h1>
-            <p>Are you sure you want to delete your account?</p>
-
-            <div class="clearfix">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="deletebtn">Delete</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-@section scripts{
-    <script>
-        $(".openModalDelete").on("click", function () {
-            $("#id01").modal("show");
-        })
-    </script>
-}*@

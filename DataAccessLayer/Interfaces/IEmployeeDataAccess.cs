@@ -3,7 +3,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace DataAccessLayer
 {
-    public interface IDataAccess
+    public interface IEmployeeDataAccess
     {
         DbRawSqlQuery<Employee> SelectFilteredEmployees(SearchModel model);
         Employee Edit(Employee emp);

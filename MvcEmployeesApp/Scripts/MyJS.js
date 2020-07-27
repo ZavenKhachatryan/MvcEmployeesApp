@@ -13,9 +13,6 @@
     $(document).on("click", "#desc", function () {
         $("#ascDesc").val('desc');
     })
-
-
-
 })
 
 function validate() {

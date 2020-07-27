@@ -1,0 +1,15 @@
+﻿@model MyModels.User
+
+@{
+    ViewBag.Title = "LogIn";
+}
+
+<h2>LogIn</h2>
+
+<form method="post">
+    <label>login</label>
+    <input type="text" name="UserName" value="@Model.UserName"/>
+    <label>pass</label>
+    <input type="text" name="UserPassword" value="@Model.UserPassword"/>
+    <input type="submit" value="Submit">
+</form>

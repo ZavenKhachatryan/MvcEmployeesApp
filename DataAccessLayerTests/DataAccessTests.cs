@@ -11,12 +11,12 @@ namespace DataAccessLayer.Tests
     public class DataAccessTests : IDisposable
     {
         private readonly DataContext data;
-        private readonly IDataAccess dataAccess;
+        private readonly IEmployeeDataAccess dataAccess;
 
         public DataAccessTests()
         {
             data = new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString);
-            dataAccess = new DataAccess(data);
+            dataAccess = new EmployeeDataAccess(data);
         }
 
         [TestMethod()]
