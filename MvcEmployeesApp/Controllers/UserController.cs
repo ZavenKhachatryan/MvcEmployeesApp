@@ -11,9 +11,9 @@ namespace MvcEmployeesApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserDataAccess _userDataAccess;
-        public UserController()
+        public UserController(IUserDataAccess userDataAccess)
         {
-            _userDataAccess = new UserDataAccess();
+            _userDataAccess = userDataAccess;
         }
         [HttpGet]
         public ActionResult LogIn()
@@ -25,7 +25,6 @@ namespace MvcEmployeesApp.Controllers
         public ActionResult LogIn(User user)
         {
             User usr = _userDataAccess.GetUser(user);
-
             if (usr is null)
                 return View(user);
 

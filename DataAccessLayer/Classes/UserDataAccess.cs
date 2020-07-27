@@ -11,9 +11,9 @@ namespace DataAccessLayer
     {
         private readonly DataContext data;
 
-        public UserDataAccess()
+        public UserDataAccess(DataContext data)
         {
-            data = new DataContext();
+            this.data = data;
         }
 
         public User GetUser(User user)

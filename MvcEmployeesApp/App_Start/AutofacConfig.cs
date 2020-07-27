@@ -28,6 +28,9 @@ namespace MvcEmployeesApp.App_Start
             container.RegisterType<EmployeeDataAccess>().As<IEmployeeDataAccess>()
                      .WithParameter("data", new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString));
 
+            container.RegisterType<UserDataAccess>().As<IUserDataAccess>()
+                     .WithParameter("data", new DataContext(ConfigurationManager.ConnectionStrings["DataContext"].ConnectionString));
+
             return container.Build();
         }
     }
