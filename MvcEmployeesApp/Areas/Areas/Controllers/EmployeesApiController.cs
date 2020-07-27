@@ -55,15 +55,8 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
         [HttpGet]
         public IHttpActionResult Remove(int? id)
         {
-            try
-            {
-                Employee employee = dataAccess.GetEmployeeById(id);
-                return Ok(employee);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            Employee employee = dataAccess.GetEmployeeById(id);
+            return Ok(employee);
         }
 
         [HttpPost]
@@ -75,15 +68,8 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers
 
         public IHttpActionResult GetDetails(int? id)
         {
-            try
-            {
-                Employee employee = dataAccess.GetEmployeeById(id);
-                return Ok(employee);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            Employee employee = dataAccess.GetEmployeeById(id);
+            return Ok(employee);
         }
     }
 }

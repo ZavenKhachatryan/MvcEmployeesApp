@@ -83,7 +83,10 @@ namespace DataAccessLayer
         public Employee GetEmployeeById(int? id)
         {
             if (id < 0)
-                throw new ArgumentOutOfRangeException("Wrong Id");
+                throw new ArgumentOutOfRangeException();
+
+            if (id == null)
+                throw new NullReferenceException();
 
             DbRawSqlQuery<Employee> employee = data.Database.SqlQuery<Employee>($"SELECT * FROM Employees WHERE Id = '{id}'");
             return employee.FirstOrDefault();

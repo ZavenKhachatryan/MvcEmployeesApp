@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MvcEmployeesApp.Models;
 using MyModels;
+using System;
 using System.Linq;
 using System.Web.Http.Results;
 
@@ -53,6 +54,11 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
             Assert.IsTrue(new Employee().Contains(getedEmployee.Content));
         }
 
+        [TestMethod()]
+        public void EditTest_Get_NotOk()
+        {
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => controller.Edit(-1));
+        }
 
         [TestMethod()]
         public void D1_GetDetailsTest_Ok()
@@ -66,15 +72,10 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         }
 
         [TestMethod()]
-        public void D2_GetDetailsTest_IdOutOfRange_Ok()
+        public void D2_GetDetailsTest_NotOk()
         {
-            BadRequestErrorMessageResult getById =
-                controller.GetDetails(-1) as BadRequestErrorMessageResult;
-            
-            string getMsg = getById.Message;
-            string outRangeMsg = "Wrong Id";
-
-            Assert.IsTrue(getMsg.Contains(outRangeMsg));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => controller.GetDetails(-1));
+            Assert.ThrowsException<NullReferenceException>(() => controller.GetDetails(null));
         }
 
         [TestMethod()]
@@ -89,7 +90,7 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
         }
 
         [TestMethod()]
-        public void F_EditTest_Post_AddExistException_Ok()
+        public void F_EditTest_NotOk()
         {
             Employee emp = CreateEmployee();
             string emailAndPhoneThrowMsg = "This Email Addres And Phone Number Already Exists";
@@ -116,30 +117,25 @@ namespace MvcEmployeesApp.Areas.Areas.Controllers.Tests
 
 
         [TestMethod()]
-        public void H_RemoveTest_GetEmployee_Ok()
+        public void H_RemoveTest_Get_Ok()
         {
             Employee employee = GetLastEmployee();
 
             OkNegotiatedContentResult<Employee> getREmp =
                 controller.Remove(employee.Id) as OkNegotiatedContentResult<Employee>;
 
-            Assert.IsTrue(employee.Contains(getREmp.Content));
+            Assert.IsTrue(employee.Id == getREmp.Content.Id);
         }
 
         [TestMethod()]
-        public void I_RemoveTest_Get_IdOutOfRange_Ok()
+        public void RemoveTest_NotOk()
         {
-            BadRequestErrorMessageResult getREmp =
-                controller.Remove(-1) as BadRequestErrorMessageResult;
-
-            string outMsg = getREmp.Message;
-            string outRangeMsg = "Wrong Id";
-
-            Assert.IsTrue(outMsg.Contains(outRangeMsg));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => controller.Remove(-1));
+            Assert.ThrowsException<NullReferenceException>(() => controller.Remove((int?)null));
         }
 
         [TestMethod()]
-        public void J_RemoveTest_Post_()
+        public void J_RemoveTest_Post_Ok()
         {
             Employee emp = GetLastEmployee();
 
