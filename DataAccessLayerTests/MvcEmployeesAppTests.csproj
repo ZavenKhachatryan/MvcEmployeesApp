@@ -77,7 +77,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DataAccessTests.cs" />
+    <Compile Include="Areas\Controllers\EmployeesApiControllerTests.cs" />
+    <Compile Include="DataAccessLayerTests\DataAccessTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
